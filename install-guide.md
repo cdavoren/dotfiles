@@ -136,3 +136,13 @@ Example host file:
         </Directory>
 </VirtualHost>
 ```
+
+Local Installs and Programs
+---------------------------
+
+Install git to ~/.local
+Get dotfiles repository and GNU stow
+
+When fixing paths, ensure to push 'export PATH=...' at TOP of .bashrc before 'interactive shell' check, else it won't be executed on ssh commands, e.g. git push
+
+
