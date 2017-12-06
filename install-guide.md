@@ -102,6 +102,9 @@ python manage.py migrate
 Configure Apache
 ----------------
 
+Configuration required is for django (version 2.0 at time of writing)
+
+Install required packages:
 sudo apt install libapache2-mod-wsgi-py3
 
 Example host file:
@@ -139,6 +142,12 @@ Example host file:
 
 Local Installs and Programs
 ---------------------------
+
+Install additional libraries required by git:
+- sudo apt install build-essential
+- sudo apt install gettext
+- sudo apt install libz-dev
+- sudo apt install libcurl4-openssl-dev # For HTTPS support e.g. github
 
 Install git to ~/.local
 Get dotfiles repository and GNU stow
