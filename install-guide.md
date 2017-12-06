@@ -143,6 +143,29 @@ Local Installs and Programs
 Install git to ~/.local
 Get dotfiles repository and GNU stow
 
+```bash
+To create new local repostory and link to server:
+git init [name]
+git remote add origin ssh:/[address]
+git push -u origin master #The -u sets *DEFAULT* upstream
+```
+
+Resulting config:
+```ini
+[core] repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+[remote "origin"]
+	url = ssh://davorian@rubikscomplex.net/Git/dotfiles.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master
+```
+
+
+
 When fixing paths, ensure to push 'export PATH=...' at TOP of .bashrc before 'interactive shell' check, else it won't be executed on ssh commands, e.g. git push
 
 
