@@ -1,0 +1,138 @@
+Install Notes for Ubuntu Server 17.10
+=====================================
+
+Enable host-only network interface
+----------------------------------
+
+/etc/netplan/01-netcfg.yaml - add:
+```json
+enp0s8:
+    dhcp4: yes
+```
+
+Disable automatic updates
+-------------------------
+
+/etc/apt/apt.conf.d/10periodic - change:
+APT::Periodic::Update-Package-Lists "0";
+
+Configure Samba
+---------------
+
+/etc/samba/smbd.conf:
+
+[davorian]
+   comment = home
+   path = /home/davorian
+   browseable = yes
+   read only = no
+   guest only = no
+   valid users = davorian
+
+sudo smbpasswd -a davorian
+sudo systemctl restart smbd
+
+Disable Network Wait Error
+--------------------------
+
+sudo systemctl disable systemd-networkd-wait-online.service
+sudo systemctl mask systemd-networkd-wait-online.service
+
+Misc Installs
+-------------
+
+sudo apt install build-essential
+install git to ~/.local
+
+Configure Django Project
+------------------------
+
+sudo apt install python3-pip
+sudo adduser davorian www-data
+cd /var/www
+sudo mkdir django-test
+sudo chown django-test davorian:www-data
+sudo chmod g+s django-test
+cd django-test
+virtualenv ./env
+source ./env/bin/activate
+python --version (should say 3.x.x)
+django-admin startproject djangotest .
+vim ./djangotest/settings.py - add '192.168.56.101' to ALLOWED_HOSTS
+python manage.py runserver 0.0.0.0:8000
+
+Configure Postgres
+------------------
+
+`sudo su - postgres`
+`psql`
+
+```sql
+CREATE DATABASE djangotest;
+CREATE USER djangotestuser WITH PASSWORD 'djangotest';
+ALTER ROLE djangotestuser SET client_encoding TO 'utf8';
+ALTER ROLE djangotestuser SET default_transaction_isolation TO 'read committed';
+ALTER ROLE djangotestuser SET timezone TO 'UTC';
+GRANT ALL PRIVILEGES ON DATABASE djangtest TO djangotestuser;
+```
+`\q`
+
+
+exit
+
+pip3 install psycopg2
+```python
+vim djangotest/settings.py:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'djangotest',
+            'USER': 'djangotestuser',
+            'PASSWORD': 'djangotest',
+            'HOST': 'localhost',
+            'PORT': '',
+        }
+    }
+```
+```bash
+python manage.py makemigrations
+python manage.py migrate
+```
+
+Configure Apache
+----------------
+
+sudo apt install libapache2-mod-wsgi-py3
+
+Example host file:
+```apache
+<VirtualHost *:80>
+        ServerName mother.rubikscomplex.net
+        ServerAlias father.rubikscomplex.net
+
+        ServerAdmin cdavoren@gmail.com
+        DocumentRoot /var/www/money
+
+        LogLevel warn
+
+        ErrorLog ${APACHE_LOG_DIR}/money-error.log
+        CustomLog ${APACHE_LOG_DIR}/money-access.log combined
+
+        WSGIDaemonProcess djangomoney python-path=/var/www/money:/var/www/money/env/lib/python3.4/site-packages
+        WSGIProcessGroup djangomoney
+        WSGIScriptAlias / /var/www/money/money/wsgi.py
+
+        Alias /static/ /var/www/money/static/
+
+        <Location /static/>
+                Options -Indexes
+        </Location>
+
+        <Directory /var/www/money/money>
+                <Files wsgi.py>
+                Order deny,allow
+                Allow from all
+                </Files>
+        </Directory>
+</VirtualHost>
+```
