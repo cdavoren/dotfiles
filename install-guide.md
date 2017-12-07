@@ -216,3 +216,9 @@ fi
 
 unset env
 ```
+
+##ZSH Installation
+
+Used oh-my-zsh one-liner pasted on home webpage.
+
+Then stow zsh configuration -> should be ok.
