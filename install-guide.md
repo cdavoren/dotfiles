@@ -18,7 +18,7 @@ enp0s8:
 
 **/etc/samba/smbd.conf:**
 
-```samba
+```conf
 [davorian]
    comment = home
    path = /home/davorian
@@ -40,19 +40,33 @@ enp0s8:
 
 ## Configure Django Project
 
+```
 sudo apt install python3-pip
+
 sudo adduser davorian www-data
+
 cd /var/www
+
 sudo mkdir django-test
+
 sudo chown django-test davorian:www-data
+
 sudo chmod g+s django-test
+
 cd django-test
+
 virtualenv ./env
+
 source ./env/bin/activate
+
 python --version (should say 3.x.x)
+
 django-admin startproject djangotest .
+
 vim ./djangotest/settings.py - add '192.168.56.101' to ALLOWED_HOSTS
+
 python manage.py runserver 0.0.0.0:8000
+```
 
 ## #Static files including common
 
@@ -156,12 +170,12 @@ Install additional libraries required by git:
 - sudo apt install gettext
 - sudo apt install libz-dev
 - sudo apt install libcurl4-openssl-dev # For HTTPS support e.g. github
+- Install git to ~/.local
+- Get dotfiles repository and GNU stow via apt
 
-Install git to ~/.local
-Get dotfiles repository and GNU stow
+To create new local repostory and link to server:
 
 ```bash
-To create new local repostory and link to server:
 git init [name]
 git remote add origin ssh:/[address]
 git push -u origin master #The -u sets *DEFAULT* upstream
@@ -181,7 +195,7 @@ Resulting config:
 	merge = refs/heads/master
 ```
 
-When fixing paths, ensure to push 'export PATH=...' at TOP of .bashrc before 'interactive shell' check, else it won't be executed on ssh commands, e.g. git push
+When fixing paths, ensure to put 'export PATH=...' at TOP of .bashrc before 'interactive shell' check, else it won't be executed on ssh commands, e.g. git push
 
 ## SSH Configuration
 
