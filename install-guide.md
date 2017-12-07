@@ -11,12 +11,14 @@ enp0s8:
 ## Disable automatic updates
 
 /etc/apt/apt.conf.d/10periodic - change:
-APT::Periodic::Update-Package-Lists "0";
+
+`APT::Periodic::Update-Package-Lists "0";`
 
 ## Configure Samba
 
-/etc/samba/smbd.conf:
+**/etc/samba/smbd.conf:**
 
+```samba
 [davorian]
    comment = home
    path = /home/davorian
@@ -24,19 +26,17 @@ APT::Periodic::Update-Package-Lists "0";
    read only = no
    guest only = no
    valid users = davorian
+```
 
-sudo smbpasswd -a davorian
-sudo systemctl restart smbd
+`sudo smbpasswd -a davorian`
+
+`sudo systemctl restart smbd`
 
 ## Disable Network Wait Error
 
-sudo systemctl disable systemd-networkd-wait-online.service
-sudo systemctl mask systemd-networkd-wait-online.service
+`sudo systemctl disable systemd-networkd-wait-online.service`
 
-## Misc Installs
-
-sudo apt install build-essential
-install git to ~/.local
+`sudo systemctl mask systemd-networkd-wait-online.service`
 
 ## Configure Django Project
 
@@ -74,6 +74,7 @@ This allows common static files in the /common-static directory, referenced in t
 ## Configure Postgres
 
 `sudo su - postgres`
+
 `psql`
 
 ```sql
@@ -180,15 +181,13 @@ Resulting config:
 	merge = refs/heads/master
 ```
 
-
-
 When fixing paths, ensure to push 'export PATH=...' at TOP of .bashrc before 'interactive shell' check, else it won't be executed on ssh commands, e.g. git push
 
 ## SSH Configuration
 
 Add keys as appropriate.
 
-Add persistent SSH management to .bashrc:
+Add persistent SSH management to .bashrc and .zshrc:
 https://help.github.com/articles/working-with-ssh-key-passphrases/#auto-launching-ssh-agent-on-msysgit)
 OR
 http://mah.everybody.org/docs/ssh
@@ -219,10 +218,14 @@ unset env
 
 ## ZSH Installation
 
-Used oh-my-zsh one-liner pasted on home webpage.
-Stow zsh configuration.
+1. Used **oh-my-zsh** one-liner pasted on home webpage.
+
+2. Stow zsh configuration.
+
 Note had to add in a .zshenv so that git can access local installs:
+
 ```bash
 export PATH=$HOME/.local/bin:$PATH
+
 ```
 
