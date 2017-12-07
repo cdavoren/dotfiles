@@ -1,4 +1,8 @@
-# Install Notes for Ubuntu Server 17.10
+# Install Notes for Ubuntu Server
+
+Notes for Ubuntu Server 17.10
+
+Valid as at 7th December 2017.
 
 ## Enable host-only network interface
 
@@ -236,7 +240,7 @@ unset env
 
 2. Stow zsh configuration.
 
-Note had to add in a .zshenv so that git can access local installs:
+Note had to add in a .zshenv so that git can access local installs via SSH:
 
 ```bash
 export PATH=$HOME/.local/bin:$PATH
