@@ -207,3 +207,6 @@ map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans
 set encoding=utf-8
 set fileencodings=utf-8,ucs-bom
 set fileformats=unix,dos
+
+" Avoids the pause on capital O pressed right after ESC
+set timeoutlen=3000 ttimeoutlen=100

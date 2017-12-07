@@ -220,5 +220,9 @@ unset env
 ##ZSH Installation
 
 Used oh-my-zsh one-liner pasted on home webpage.
+Stow zsh configuration.
+Note had to add in a .zshenv so that git can access local installs:
+```bash
+export PATH=$HOME/.local/bin:$PATH
+```
 
-Then stow zsh configuration -> should be ok.
