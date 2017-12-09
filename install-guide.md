@@ -30,6 +30,14 @@ enp0s8:
    read only = no
    guest only = no
    valid users = davorian
+
+[www]
+   comment = www
+   path = /var/www
+   browseable = yes
+   read only = no
+   guest only = no
+   valid users = davorian
 ```
 
 `sudo smbpasswd -a davorian`
@@ -71,6 +79,37 @@ vim ./djangotest/settings.py - add '192.168.56.101' to ALLOWED_HOSTS
 
 python manage.py runserver 0.0.0.0:8000
 ```
+### Custom Template Note
+
+Custom template tags go in the `[app]/templatetags` directory.  This directory must have an (empty) `__init__.py`.
+
+The following lines must be included ins `settings.py`:
+
+```python
+TEMPLATE_LOADERS = {
+    'django.template.loaders.app_directories.load_template_source',
+}
+```
+
+The file must include at least:
+
+```python
+from django import template
+from memoria.models import Item, Category
+
+register = template.Library()
+
+# Example filter:
+@register.filter()
+def make_item_list(value):
+   ...
+```
+
+The template that is using the custom tags/filters must use:
+
+```djangohtml
+{% load [filter_filename] %}
+```
 
 ## #Static files including common
 
@@ -80,6 +119,12 @@ Add the following to settings file:
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'common-static')
+
+# Don't know why this has to be set manually, since this is the documented 'default value:
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
 ```
 
 This allows common static files in the /common-static directory, referenced in templates as:
