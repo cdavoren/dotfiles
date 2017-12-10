@@ -46,6 +46,8 @@ enp0s8:
 
 ## Disable Network Wait Error
 
+On Ubuntu 17.10, after adding host-only adapter for virtual machine, there is a wait error on boot (some kind of DHCP error?).  I don't know why, but this disables it.
+
 `sudo systemctl disable systemd-networkd-wait-online.service`
 
 `sudo systemctl mask systemd-networkd-wait-online.service`
