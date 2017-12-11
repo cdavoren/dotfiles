@@ -138,6 +138,7 @@ endif
 
 set visualbell
 
+set number
 
 function! ApplySourceFiletypeOptions()
 	let t=&filetype
@@ -145,7 +146,6 @@ function! ApplySourceFiletypeOptions()
     let two_spaces=['yaml', 'php', 'html', 'htmldjango']
     if index(sourcetypes, t) >= 0
 		set expandtab
-        set number
         set autoindent
         if index(two_spaces, t) >= 0
             set shiftwidth=2
