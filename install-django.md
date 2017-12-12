@@ -1,12 +1,56 @@
-# Django (2.0) and Apache Installation Notes
+# Install Notes for Ubuntu Server
 
-Django version: 2.0, 
+Notes for Ubuntu Server 17.10
 
-Apache version: 2.4, under Ubuntu Server 17.10
+Valid as at 7th December 2017.
 
-Current as at 15th December 2017.
+## Enable host-only network interface
 
-## Create and Configure Django Project
+/etc/netplan/01-netcfg.yaml - add:
+```json
+enp0s8:
+    dhcp4: yes
+```
+
+## Disable automatic updates
+
+/etc/apt/apt.conf.d/10periodic - change:
+
+`APT::Periodic::Update-Package-Lists "0";`
+
+## Configure Samba
+
+**/etc/samba/smbd.conf:**
+
+```conf
+[davorian]
+   comment = home
+   path = /home/davorian
+   browseable = yes
+   read only = no
+   guest only = no
+   valid users = davorian
+
+[www]
+   comment = www
+   path = /var/www
+   browseable = yes
+   read only = no
+   guest only = no
+   valid users = davorian
+```
+
+`sudo smbpasswd -a davorian`
+
+`sudo systemctl restart smbd`
+
+## Disable Network Wait Error
+
+`sudo systemctl disable systemd-networkd-wait-online.service`
+
+`sudo systemctl mask systemd-networkd-wait-online.service`
+
+## Configure Django Project
 
 ```
 sudo apt install python3-pip
@@ -76,11 +120,14 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'common-static')
 
-# Don't know why this has to be set manually, since this is the documented 'default value:
+# Don't know why this has to be set manually, since this is the documented 'default' value anyway:
+# Note 09/12/2017: Apparently working without this, not sure why I had to add it to begin with?  Leave commented out for now.
+"""
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
+"""
 ```
 
 This allows common static files in the /common-static directory, referenced in templates as:
@@ -130,12 +177,12 @@ python manage.py migrate
 
 ## Configure Apache
 
+Configuration required is for django (version 2.0 at time of writing)
+
 Install required packages:
+sudo apt install libapache2-mod-wsgi-py3
 
-`sudo apt install libapache2-mod-wsgi-py3`
-
-Example host file (in e.g. `/etc/apache/sites-available`):
-
+Example host file:
 ```apache
 <VirtualHost *:80>
         ServerName mother.rubikscomplex.net
@@ -167,3 +214,84 @@ Example host file (in e.g. `/etc/apache/sites-available`):
         </Directory>
 </VirtualHost>
 ```
+
+## Local Installs and Programs
+
+Install additional libraries required by git:
+- sudo apt install build-essential
+- sudo apt install gettext
+- sudo apt install libz-dev
+- sudo apt install libcurl4-openssl-dev # For HTTPS support e.g. github
+- Install git to ~/.local
+- Get dotfiles repository and GNU stow via apt
+
+To create new local repostory and link to server:
+
+```bash
+git init [name]
+git remote add origin ssh:/[address]
+git push -u origin master #The -u sets *DEFAULT* upstream
+```
+
+Resulting config:
+```ini
+[core] repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+[remote "origin"]
+	url = ssh://davorian@rubikscomplex.net/Git/dotfiles.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master
+```
+
+When fixing paths, ensure to put 'export PATH=...' at TOP of .bashrc before 'interactive shell' check, else it won't be executed on ssh commands, e.g. git push
+
+## SSH Configuration
+
+Add keys as appropriate.
+
+Add persistent SSH management to .bashrc and .zshrc:
+https://help.github.com/articles/working-with-ssh-key-passphrases/#auto-launching-ssh-agent-on-msysgit)
+OR
+http://mah.everybody.org/docs/ssh
+
+```bash
+env=~/.ssh/agent.env
+
+agent_load_env () { test -f "$env" && . "$env" >| /dev/null ; }
+
+agent_start () {
+    (umask 077; ssh-agent >| "$env")
+    . "$env" >| /dev/null ; }
+
+agent_load_env
+
+# agent_run_state: 0=agent running w/ key; 1=agent w/o key; 2= agent not running
+agent_run_state=$(ssh-add -l >| /dev/null 2>&1; echo $?)
+
+if [ ! "$SSH_AUTH_SOCK" ] || [ $agent_run_state = 2 ]; then
+    agent_start
+    ssh-add
+elif [ "$SSH_AUTH_SOCK" ] && [ $agent_run_state = 1 ]; then
+    ssh-add
+fi
+
+unset env
+```
+
+## ZSH Installation
+
+1. Used **oh-my-zsh** one-liner pasted on home webpage.
+
+2. Stow zsh configuration.
+
+Note had to add in a .zshenv so that git can access local installs via SSH:
+
+```bash
+export PATH=$HOME/.local/bin:$PATH
+
+```
+
