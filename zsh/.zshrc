@@ -117,3 +117,5 @@ fi
 
 unset env
 
+alias dman='python manage.py'
+alias dmanr='python manage.py runserver 0.0.0.0:8000'
