@@ -182,6 +182,8 @@ python manage.py migrate
 
 `\dt` - list all tables in database
 
+`\d+ [table-name]` - list all fields for table
+
 Change user password:
 
 ```sql
