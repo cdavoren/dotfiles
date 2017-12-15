@@ -6,7 +6,7 @@
 
 Official thread: https://forums.mydigitallife.net/forums/kms-tools.51/ (will need to login, user Davorian)
 
-Do **not** download from tld's.  Use the official forum thread.
+Do **not** download from TLDs.  Use the official thread only, as above.
 
 KMSAuto Net (portable) is the one that has worked so far, but "KMS Tools" may also work.
 
@@ -34,11 +34,11 @@ KMSAuto Net (portable) is the one that has worked so far, but "KMS Tools" may al
 3. Python 3
 4. Visual Studio Code.  
 Extensions installed:
-  - Django template (bibhasdn)
-  - Python (microsoft)
-  - Vim (vscodevim)
-  - VimL (vscodevim)
-  - markdownlint (David Anson)
+    - Django template (bibhasdn)
+    - Python (microsoft)
+    - Vim (vscodevim)
+    - VimL (vscodevim)
+    - markdownlint (David Anson)
 5. Sublime Text Editor 3
 
 ### Optional Dev Tools (rarely used)
