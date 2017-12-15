@@ -170,9 +170,28 @@ vim djangotest/settings.py:
         }
     }
 ```
+
 ```bash
 python manage.py makemigrations
 python manage.py migrate
+```
+
+### psql Quick Reference
+
+`\c [database-name]` - connect to database (same as `use [database-name]` in MySQL)
+
+`\dt` - list all tables in database
+
+Change user password:
+
+```sql
+ALTER USER user PASSWORD password;
+```
+
+Delete user:
+
+```sql
+DROP USER user;
 ```
 
 ## Configure Apache
