@@ -236,83 +236,12 @@ Example host file:
 </VirtualHost>
 ```
 
-## Local Installs and Programs
+## Install SASS
 
-Install additional libraries required by git:
-- sudo apt install build-essential
-- sudo apt install gettext
-- sudo apt install libz-dev
-- sudo apt install libcurl4-openssl-dev # For HTTPS support e.g. github
-- Install git to ~/.local
-- Get dotfiles repository and GNU stow via apt
-
-To create new local repostory and link to server:
+Enter the following commands:
 
 ```bash
-git init [name]
-git remote add origin ssh:/[address]
-git push -u origin master #The -u sets *DEFAULT* upstream
+sudo apt install ruby-dev rubygems
+
+sudo gem install sass
 ```
-
-Resulting config:
-```ini
-[core] repositoryformatversion = 0
-	filemode = true
-	bare = false
-	logallrefupdates = true
-[remote "origin"]
-	url = ssh://davorian@rubikscomplex.net/Git/dotfiles.git
-	fetch = +refs/heads/*:refs/remotes/origin/*
-[branch "master"]
-	remote = origin
-	merge = refs/heads/master
-```
-
-When fixing paths, ensure to put 'export PATH=...' at TOP of .bashrc before 'interactive shell' check, else it won't be executed on ssh commands, e.g. git push
-
-## SSH Configuration
-
-Add keys as appropriate.
-
-Add persistent SSH management to .bashrc and .zshrc:
-https://help.github.com/articles/working-with-ssh-key-passphrases/#auto-launching-ssh-agent-on-msysgit)
-OR
-http://mah.everybody.org/docs/ssh
-
-```bash
-env=~/.ssh/agent.env
-
-agent_load_env () { test -f "$env" && . "$env" >| /dev/null ; }
-
-agent_start () {
-    (umask 077; ssh-agent >| "$env")
-    . "$env" >| /dev/null ; }
-
-agent_load_env
-
-# agent_run_state: 0=agent running w/ key; 1=agent w/o key; 2= agent not running
-agent_run_state=$(ssh-add -l >| /dev/null 2>&1; echo $?)
-
-if [ ! "$SSH_AUTH_SOCK" ] || [ $agent_run_state = 2 ]; then
-    agent_start
-    ssh-add
-elif [ "$SSH_AUTH_SOCK" ] && [ $agent_run_state = 1 ]; then
-    ssh-add
-fi
-
-unset env
-```
-
-## ZSH Installation
-
-1. Used **oh-my-zsh** one-liner pasted on home webpage.
-
-2. Stow zsh configuration.
-
-Note had to add in a .zshenv so that git can access local installs via SSH:
-
-```bash
-export PATH=$HOME/.local/bin:$PATH
-
-```
-
