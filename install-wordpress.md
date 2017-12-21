@@ -1,6 +1,7 @@
 # WordPress Installation
 
 Date: 20th December 2017
+
 WordPress version: 4.9.1
 
 ## Download WordPress
@@ -26,8 +27,8 @@ FLUSH PRIVILEGES;
 This VirtualHost config was amalgamated hurredly from 2 or 3 sources, with some educated guesses.  TODO: To verify formally.
 
 ```apache
-<VirtualHost *:80>
-        ServerAdmin cdavoren@gmail.com
+<VirtualHost *:80>  
+    ServerAdmin cdavoren@gmail.com
     DocumentRoot /var/www/wordpress-blog
 
     ServerName blog.ubuntuvm.net
