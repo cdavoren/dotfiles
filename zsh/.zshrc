@@ -117,5 +117,8 @@ fi
 
 unset env
 
-alias dman='python manage.py'
-alias dmanr='python manage.py runserver 0.0.0.0:8000'
+# Used by crontab
+export EDITOR=/usr/bin/vim
+
+# Pass full environment to sudo
+alias sudo='sudo -E'
