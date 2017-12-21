@@ -43,6 +43,9 @@ Add:
    read only = no
    guest only = no
    valid users = davorian
+   map archive = no
+   create mask = 0664
+   directory mask = 0775
 
 [www]
    comment = www
@@ -51,6 +54,9 @@ Add:
    read only = no
    guest only = no
    valid users = davorian
+   map archive = no
+   create mask = 0664
+   directory mask = 0775
 ```
 
 Then:

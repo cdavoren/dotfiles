@@ -142,7 +142,7 @@ set number
 
 function! ApplySourceFiletypeOptions()
 	let t=&filetype
-    let sourcetypes=['vim', 'python', 'c', 'cpp', 'sh', 'php', 'yaml', 'css', 'javascript', 'scss', 'html', 'htmldjango', 'apache']
+    let sourcetypes=['vim', 'python', 'c', 'cpp', 'sh', 'php', 'yaml', 'css', 'javascript', 'scss', 'html', 'htmldjango', 'apache', 'samba']
     let two_spaces=['yaml', 'php', 'html', 'htmldjango']
     if index(sourcetypes, t) >= 0
 		set expandtab
