@@ -4,6 +4,8 @@ Date: 20th December 2017
 
 WordPress version: 4.9.1
 
+**Note:** Due to tight coupling between WordPress settings and the hosted domain, it is better use the WordPress installation process on each host.  You'll need to *export* posts from the old install if migrating - this can be done from the administration section.
+
 ## Download WordPress
 
 Download latest tarball from the [WordPress home page](https://wordpress.org/download/).
@@ -27,8 +29,8 @@ FLUSH PRIVILEGES;
 This VirtualHost config was amalgamated hurredly from 2 or 3 sources, with some educated guesses.  TODO: To verify formally.
 
 ```apache
-<VirtualHost *:80>  
-    ServerAdmin cdavoren@gmail.com
+<VirtualHost *:80>
+        ServerAdmin cdavoren@gmail.com
     DocumentRoot /var/www/wordpress-blog
 
     ServerName blog.ubuntuvm.net
@@ -67,3 +69,8 @@ Require user admin
 ## Configuring WordPress
 
 Use the default installation script: navigate to the root and the config should be invoked automatically.
+
+## Importing Old Posts
+
+Can be done using the import function under "Tools" in the administration section.  You have to install the [WordPress Importer plugin](https://en-au.wordpress.org/plugins/wordpress-importer/).
+
