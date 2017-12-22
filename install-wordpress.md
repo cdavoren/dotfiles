@@ -66,6 +66,16 @@ Require user admin
 
 **Note:** Using a `.htaccess` file requires the `AllowOverride All` setting in the `<Directory>` config.
 
+## Installing PHP
+
+On the Linode server, the default 17.10 install didn't include PHP or obviously the PHP-MySQL extension.  To install:
+
+```bash
+sudo apt install php php-mysql
+
+sudo systemctl restart apache2
+```
+
 ## Configuring WordPress
 
 Use the default installation script: navigate to the root and the config should be invoked automatically.
