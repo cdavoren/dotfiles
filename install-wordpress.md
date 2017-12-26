@@ -10,6 +10,16 @@ WordPress version: 4.9.1
 
 Download latest tarball from the [WordPress home page](https://wordpress.org/download/).
 
+## Installing PHP and/or MySQL
+
+On the Linode server, the default 17.10 install didn't include PHP, MySQL, or the PHP-MySQL extension.  To install:
+
+```bash
+sudo apt install mysql-server php php-mysql
+
+sudo systemctl restart apache2
+```
+
 ## MySQL Configuration
 
 WordPress is strongly coupled to MySQL, so alternatives (e.g. PostreSQL) are not really feasible without a lot of messing around.  Also plugins are reliant on MySQL-specific syntax/features so that will complicate things.
@@ -65,16 +75,6 @@ Require user admin
 ```
 
 **Note:** Using a `.htaccess` file requires the `AllowOverride All` setting in the `<Directory>` config.
-
-## Installing PHP
-
-On the Linode server, the default 17.10 install didn't include PHP or obviously the PHP-MySQL extension.  To install:
-
-```bash
-sudo apt install php php-mysql
-
-sudo systemctl restart apache2
-```
 
 ## Configuring WordPress
 
