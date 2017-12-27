@@ -79,7 +79,35 @@ vim ./djangotest/settings.py - add '192.168.56.101' to ALLOWED_HOSTS
 
 python manage.py runserver 0.0.0.0:8000
 ```
-### Custom Template Note
+### Template Extension
+
+Example base template (with path e.g. `app/templates/app/base.html`):
+
+```htmldjango
+<html>
+<head>
+...
+<title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+{% block content %}
+{% endblock %}
+</body>
+</html>
+```
+
+Child templates inherit like so:
+
+```htmldjango
+{% extends 'app/base.html' %}
+
+{% block title %}Page Title{% endblock %}
+{% block content
+  ...
+{% endblock %}
+```
+
+### Custom Template Tags
 
 Custom template tags go in the `[app]/templatetags` directory.  This directory must have an (empty) `__init__.py`.
 
@@ -111,7 +139,7 @@ The template that is using the custom tags/filters must use:
 {% load [filter_filename] %}
 ```
 
-## #Static files including common
+### Static files including common
 
 Add the following to settings file:
 
@@ -244,6 +272,8 @@ Enter the following commands:
 sudo apt install ruby-dev rubygems
 
 sudo gem install sass
+
+sass --watch /path/to/scss:/path/to/outputcss
 ```
 
 ## Deployment
