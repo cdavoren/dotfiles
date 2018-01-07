@@ -79,7 +79,28 @@ vim ./djangotest/settings.py - add '192.168.56.101' to ALLOWED_HOSTS
 
 python manage.py runserver 0.0.0.0:8000
 ```
-### Template Extension
+
+### Virtualenv and Python versions
+
+If the Python minor version number is changed (e.g. from 3.5 to 3.6) then the symbolic links in the env directory will break.  For reasons I haven't figured out, the Apache-served version of the site will still work but the `manage.py` commands and just about everything else will break (really, this probably has something to do with Python pathing).
+
+I should probably consider including a list of local packages including version numbers so that the environment can be rebuilt.  This list can be generated using:
+
+```bash
+pip freeze > package_list.txt
+```
+
+Then reconstituted using:
+
+```bash
+pip install -r package_list.txt
+```
+
+Taken from here: https://help.pythonanywhere.com/pages/RebuildingVirtualenvs/
+
+TODO: This could probably be put in some kind of script.
+
+## Template Extension
 
 Example base template (with path e.g. `app/templates/app/base.html`):
 
@@ -139,7 +160,7 @@ The template that is using the custom tags/filters must use:
 {% load [filter_filename] %}
 ```
 
-### Static files including common
+## Static Files (including 'common' files)
 
 Add the following to settings file:
 
