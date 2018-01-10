@@ -299,7 +299,11 @@ sass --watch /path/to/scss:/path/to/outputcss
 
 ## Deployment
 
-For deployment, sensitive data such as database access credentials and the SECRET_KEY should not be stored in settings.py (i.e. in the *source repository*).  They can be accessed using **environment variables**, but note that the usual Apache environment settings don't work with WSGI.  The solution is to use a separate wsgi.py stored *outside* the application directory, in e.g. `/srv`.  So do the following:
+For deployment, sensitive data such as database access credentials and the SECRET_KEY should not be stored in settings.py (i.e. in the *source repository*).  They can be accessed using **environment variables**, but note that the usual Apache environment settings don't work with WSGI.  The solution is to use a separate wsgi.py stored *outside* the application directory, in e.g. `/srv`.  
+
+An additional advantage of this solution is that it allows `python manage.py` calls on the server to reference the server-specific configuration if required, by setting the relevant environment variable beforehand.
+
+Steps:
 
 1. Enable access to `/srv/` in the global `/etc/apache2/apache2.conf` file:
     ```apache
@@ -324,18 +328,50 @@ For deployment, sensitive data such as database access credentials and the SECRE
 
     from django.core.wsgi import get_wsgi_application
 
-    os.environ['SKILLDRIVE_SECRET_KEY'] = 'really-long-string-using-eg-pwgen-with-the-secure-switch';
-    os.environ['SKILLDRIVE_DATABASE_PASSWORD'] = 'skilldrive20171207';
-    os.environ['SKILLDRIVE_DATABASE_USER'] = 'skilldriveuser';
-    os.environ['SKILLDRIVE_DATABASE_NAME'] = 'skilldrive';
-    os.environ['SKILLDRIVE_USE_RAVEN'] = '1';
-    os.environ['SKILLDRIVE_ALLOWED_HOSTS'] = ';'.join(['skilldrive.ubuntuvm.net'])
-    os.environ['SKILLDRIVE_PRODUCTION'] = '1';
-
+    os.environ['SKILLDRIVE_ADDITIONAL_SETTINGS'] = '/srv/skilldrive/settings.py'
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "skilldrive.settings")
 
     application = get_wsgi_application()
     ```
+1. Create the server-specific settings file to be read e.g. `/srv/skilldrive/settings.py' (example for SSL/HTTPS):
+   ```python
+   SECRET_KEY = 'special value'
+
+   ALLOWED_HOSTS = ['skilldrive.rubikscomplex.net']
+
+   DATABASES = {
+       'default': {
+           'ENGINE' : 'django.db.backends.postgresql_psycopg2',
+           'NAME' : 'skilldrive',
+           'USER' : 'skilldriveuser',
+           'PASSWORD' : 'skilldrive20171207',
+           'HOST' : 'localhost',
+           'PORT' : '',
+       }
+   }
+
+   # Remote logging with Sentry
+   INSTALLED_APPS.append('raven.contrib.django.raven_compat')
+   RAVEN_CONFIG = {
+       'dsn' : '--value--',
+       'release' : raven.fetch_git_sha(BASE_DIR),
+   }
+
+   # SSL settings
+   SECURE_HSTS_SECONDS=1
+   SECURE_HSTS_PRELOAD=True
+   SECURE_HSTS_INCLUDE_SUBDOMAINS=True
+
+   # Because manage.py check --deploy said so
+   SECURE_CONTENT_TYPE_NOSNIFF=True
+   SECURE_SSL_REDIRECT=True
+   SECURE_BROWSER_XSS_FILTER=True
+   SESSION_COOKIE_SECURE=True
+   CSRF_COOKIE_SECURE=True
+   X_FRAME_OPTIONS='DENY'
+
+   DEBUG=False
+   ```
 1. Set the virtual host config to use this file instead of the original in the relevant config e.g. `/etc/apache2/sites-available/003-skilldrive.conf`:
     ```apache
     WSGIScriptAlias / /srv/skilldrive/skilldrive-wsgi.py
@@ -349,42 +385,9 @@ For deployment, sensitive data such as database access credentials and the SECRE
         </Files>
     </Directory>
     ```
-1. Alter the settings.py to use the environment variables instead of hardcoded values (with maybe some default non-sensitive values for convenience):
+1. Add the following to the **end** (to allow overriding of default values) of settings.py to facilitate use the external file specified by the environment variable:
     ```python
-    # SECURITY WARNING: keep the secret key used in production secret!
-    SECRET_KEY = os.environ.get('SKILLDRIVE_SECRET_KEY', '(#ndzme(jt4w)=(z^sretalk170dx(lww=lq$o+j15e5lxxi1s')
-
-    # SECURITY WARNING: don't run with debug turned on in production!
-    DEBUG = os.environ.get ('SKILLDRIVE_PRODUCTION') is None
-
-    ALLOWED_HOSTS = ['skilldrive.ubuntuvm.net']
-    ALLOWED_HOSTS_STRING = os.environ.get('SKILLDRIVE_ALLOWED_HOSTS')
-    if ALLOWED_HOSTS_STRING is not None:
-        ALLOWED_HOSTS = ALLOWED_HOSTS_STRING.split(';')
-
-    ...
-
-    DATABASES = {
-        'default': {
-            'ENGINE' : 'django.db.backends.postgresql_psycopg2',
-            'NAME' : os.environ.get('SKILLDRIVE_DATABASE_NAME', 'skilldrive'),
-            'USER' : os.environ.get('SKILLDRIVE_DATABASE_USER', 'skilldriveuser'),
-            'PASSWORD' : os.environ.get('SKILLDRIVE_DATABASE_PASSWORD', 'skilldrive20171207'),
-            'HOST' : 'localhost',
-            'PORT' : '',
-        }
-    }
-
-    ...
-
-    # Remote logging with Sentry
-    RAVEN_CONFIG = {
-    }
-
-    if os.environ.get('SKILLDRIVE_USE_RAVEN') is not None:
-        INSTALLED_APPS.append('raven.contrib.django.raven_compat')
-        RAVEN_CONFIG = {
-            'dsn' : 'https://5fb1ce5f3f5847658f5e4fd0aca659fe:878e14234463469b93f4ac0f128574a0@sentry.io/256852',
-            'release' : raven.fetch_git_sha(BASE_DIR),
-        }
+    if os.environ.get('SKILLDRIVE_ADDITIONAL_SETTINGS') is not None:
+        exec(open(os.environ.get('SKILLDRIVE_ADDITIONAL_SETTINGS')).read())
     ```
+
