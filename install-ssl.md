@@ -29,6 +29,12 @@ The configuration should *something* like:
 $ sudo certbot register --cert-name rubikscomplex -d rubikscomplex.net -d www.rubikscomplex.net -d father.rubikscomplex.net -d mother.rubikscomplex.net
 ```
 
+A new subdomain can be added or removed just by specifying the "new complete list" with the following format:
+
+```bash
+$ sudo certbot --cert-name rubikscomplex --expand -d rubikscomplex.net -d www.rubikscomplex.net -d father.rubikscomplex.net -d mother.rubikscomplex.net -d another-subdomain.rubikscomplex.net
+```
+
 ## Apache Configuration
 
 Redirect from HTTP to HTTPS (000-le-redirect-rubikscomplex.net.conf):
