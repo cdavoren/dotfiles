@@ -1,6 +1,7 @@
 # Install Tactotron
 
 Initial points:
+  - OS used in these notes was Ubuntu 17.10
   - Set up the virtual machine -> documentation indicates that you need at LEAST 40GB space to train models - in this case I use a separately mounted disk with space at 60GB+
   - The name of the VM instance in this guide is ```comp-vcpu8```
   - The name of the training/data disk image in this guide is ```training```
@@ -20,6 +21,11 @@ $ sudo passwd [LOGIN]
 
 Extras:
   - Install Git (https://www.kernel.org/pub/software/scm/git/)
+  
+      *Remember:*
+      ```bash
+      $ sudo apt install gettext libz-dev libcurl4-openssl-dev
+      ```
   - Install Stow (http://ftp.gnu.org/gnu/stow/)
   - Install zsh via apt
   - Setup zsh via oh-my-zsh (use README.md curl command - https://github.com/robbyrussell/oh-my-zsh)
