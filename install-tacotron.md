@@ -3,6 +3,7 @@
 Initial points:
   - Set up the virtual machine -> documentation indicates that you need at LEAST 40GB space to train models - in this case I use a separately mounted disk with space at 60GB+
   - The name of the VM instance in this guide is ```comp-vcpu8```
+  - The name of the training/data disk image in this guide is ```training```
 
 Ensure that the instance has ssh private/public key acccess to old Linode server using gcloud utility in Windows Command Prompt:
 
@@ -24,6 +25,39 @@ Extras:
   - Setup zsh via oh-my-zsh (use README.md curl command - https://github.com/robbyrussell/oh-my-zsh)
   - Clone dotfiles repo to use configurations (beware hardcoded references to old login 'davorian')
 
+## Attach Training/Data Disk Image
+
+1. Attach image via gcloud command:
+    ```
+    gcloud compute instances attach-disk comp-vcpu8 --disk training
+    ```
+1. Check that it's attached properly by running ```lsblk``` - should see sdb in the disk list
+1. Mount image in appropriate named & created directory e.g. /mnt/training
+    ```bash
+    $ sudo mkdir /mnt/training
+    $ sudo mount -o discard,defaults /dev/sdb /mnt/training
+    ```
+1. Format the image if it hasn't been already:
+    ```bash
+    $ sudo mkfs.ext4 -m 0 -F -E lazy_itable_init=0,lazy_journal_init=0,discard /dev/sdb
+    ```
+- Ensure all users have access to the disk
+    ```bash
+    $ sudo chmod a+w /mnt/training
+    ```
+- Backup current fstab file:
+    ```bash
+    $ sudo cp /etc/fstab /etc/fstab.backup
+    ```
+- Find UUID of new device:
+    ```bash
+    $ sudo blkid /dev/sdb
+    ```
+- Add device to fstab file with line:
+    ```fstab
+    UUID=[UUID_VALUE] /mnt/training ext4 discard,defaults,nofail 0 2
+    ```
+
 ## Install Basic Tools
 
 1. git (https://www.kernel.org/pub/software/scm/git/)
@@ -39,7 +73,7 @@ To create a virtualenv for python3 use:
 ```
 $ python3 -m venv [ENV_NAME]
 ```
-Try to use ENV_NAME values that are meaningful to the current project (prevents confusion when changing directories)
+**Try to use ENV_NAME values that are meaningful to the current project (prevents confusion when changing directories)**
 
 ## Tensorflow (non-GPU)
 
