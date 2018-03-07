@@ -27,6 +27,11 @@ Extras:
       $ sudo apt install gettext libz-dev libcurl4-openssl-dev
       ```
   - Install Stow (http://ftp.gnu.org/gnu/stow/)
+  
+      *To avoid warning about Perl module Test::Output:*
+      ```bash
+      $ sudo cpan -f Test::Output
+      ```
   - Install zsh via apt
   - Setup zsh via oh-my-zsh (use README.md curl command - https://github.com/robbyrussell/oh-my-zsh)
   - Clone dotfiles repo to use configurations (beware hardcoded references to old login 'davorian')
