@@ -1,6 +1,14 @@
 # Install Tactotron
 
-Set up the virtual machine -> documentation indicates that you need at LEASE 40GB space to train models
+Initial points:
+  - Set up the virtual machine -> documentation indicates that you need at LEAST 40GB space to train models - in this case I use a separately mounted disk with space at 60GB+
+  - The name of the VM instance in this guide is ```comp-vcpu8```
+
+Ensure that the instance has ssh private/public key acccess to old Linode server using gcloud utility in Windows Command Prompt:
+
+```
+gcloud compute scp rubikscomplex_20160309 cdavoren@comp-vcpu8:/home/cdavoren/.ssh
+```
 
 ```bash
 $ sudo apt update
@@ -9,38 +17,29 @@ $ sudo apt install build-essential
 $ sudo passwd [LOGIN]
 ```
 
-1. Install git
-2. Copy rubikscomplex.net key to instance using gcloud, e.g.:
-```
-gcloud compute scp rubikscomplex_20160309 cdavoren@voice4:/home/cdavoren/.ssh
-```
+Extras:
+  - Install Git (https://www.kernel.org/pub/software/scm/git/)
+  - Install Stow (http://ftp.gnu.org/gnu/stow/)
+  - Install zsh via apt
+  - Setup zsh via oh-my-zsh (use README.md curl command - https://github.com/robbyrussell/oh-my-zsh)
+  - Clone dotfiles repo to use configurations (beware hardcoded references to old login 'davorian')
 
 ## Install Basic Tools
 
 1. git (https://www.kernel.org/pub/software/scm/git/)
 2. gnu stow (http://ftp.gnu.org/gnu/stow/)
 
-## Environment Setup
-
-```bash
-$ git clone rubikscomplex.net:/srv/git/dotfiles.git
-$ rm .bashrc .bash_logout
-$ cd dotfiles
-$ stow bash
-$ stow screen
-$ stow tmux
-```
-
 ## Python Setup
 
 ```bash
-$ sudo install python3-pip
+$ sudo install python3-pip python-venv
 ```
 
 To create a virtualenv for python3 use:
 ```
-$ virtualenv -m python3 env
+$ python3 -m venv [ENV_NAME]
 ```
+Try to use ENV_NAME values that are meaningful to the current project (prevents confusion when changing directories)
 
 ## Tensorflow (non-GPU)
 
