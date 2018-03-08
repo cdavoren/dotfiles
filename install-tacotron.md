@@ -86,24 +86,35 @@ $ python3 -m venv [ENV_NAME]
 
 **Try to use ENV_NAME values that are meaningful to the current project (prevents confusion when changing directories)**
 
-## Tensorflow (non-GPU)
+## Tensorflow Requirements
 
-```bash
+### Installing Bazel
+
+Uses custom apt repository
+
+```
 $ sudo apt install openjdk-8-jdk
+$ echo "deb [arch=amd64] http://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list
+curl https://bazel.build/bazel-release.pub.gpg | sudo apt-key add -
+$ sudo apt update
+$ sudo apt install bazel
 ```
 
-**Create a virtualenv FIRST**
+## Tensorflow Compilation (non-GPU)
+
+**Create a virtualenv FIRST for this, do NOT check out r1.0 as the documentation suggests as this does not recognise the latest version of bazel.**
 
 ```bash
-$ pip install six numpy wheel
 $ git clone https://github.com/tensorflow/tensorflow 
 $ cd tensorflow
+$ python3 -m venv --system-site-packages env-tens
+$ . ./env-tens/bin/activate
+$ pip install numpy six wheel 
 $ ./configure
 $ bazel build --config=opt //tensorflow/tools/pip_package:build_pip_package
 $ bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg
-,``` 
-
-Now wait a very long time.  There are at least 4000 compilation targets here.
+```
+Now wait a very long time.  There are nearly 5000 compilation targets here.
 
 ## Train Models
 
