@@ -19,22 +19,27 @@ $ sudo apt install build-essential
 $ sudo passwd [LOGIN]
 ```
 
-Extras:
-  - Install Git (https://www.kernel.org/pub/software/scm/git/)
+## Basic Server Setup
+
+  1. Set local password for user using ```sudo passwd [USER]``` (will be required for ZSH installation)
+  2. Install Git (https://www.kernel.org/pub/software/scm/git/)
   
       *Remember:*
       ```bash
       $ sudo apt install gettext libz-dev libcurl4-openssl-dev
       ```
-  - Install Stow (http://ftp.gnu.org/gnu/stow/)
+  1. Install Stow (http://ftp.gnu.org/gnu/stow/)
   
       *To avoid warning about Perl module Test::Output:*
       ```bash
       $ sudo cpan -f Test::Output
       ```
-  - Install zsh via apt
-  - Setup zsh via oh-my-zsh (use README.md curl command - https://github.com/robbyrussell/oh-my-zsh)
-  - Clone dotfiles repo to use configurations (beware hardcoded references to old login 'davorian')
+  1. Clone dotfiles repo to use configurations (beware hardcoded references to old login 'davorian')
+  1. Install zsh 
+     ```
+     $ sudo apt install zsh
+     ```
+     Setup zsh via oh-my-zsh (use README.md curl command - https://github.com/robbyrussell/oh-my-zsh)
 
 ## Attach Training/Data Disk Image
 
@@ -69,21 +74,16 @@ Extras:
     UUID=[UUID_VALUE] /mnt/training ext4 discard,defaults,nofail 0 2
     ```
 
-## Install Basic Tools
-
-1. git (https://www.kernel.org/pub/software/scm/git/)
-2. gnu stow (http://ftp.gnu.org/gnu/stow/)
-
 ## Python Setup
-
-```bash
-$ sudo install python3-pip python-venv
-```
 
 To create a virtualenv for python3 use:
 ```
+$ sudo apt install python3-pip
+$ sudo apt install python3-venv
+$ sudo apt install wheel
 $ python3 -m venv [ENV_NAME]
 ```
+
 **Try to use ENV_NAME values that are meaningful to the current project (prevents confusion when changing directories)**
 
 ## Tensorflow (non-GPU)
