@@ -120,6 +120,10 @@ Now wait a very long time.  There are nearly 5000 compilation targets here.
 
 ```bash
 $ git clone https://github.com/keithito/tacotron
+$ cd tacotron
+$ python3 -m venv --system-site-packages env-kei
+$ . ./env-kei/bin/activate
+$ pip3 install -r requirements.txt
 ```
 
 Edit `hparams.py` accordingly.  Apparently not much improvement after ~250k steps although provided samples are 877k steps.  (?How to configure "steps", what does this mean?  Read the published paper?)
