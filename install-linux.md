@@ -76,14 +76,14 @@ On Ubuntu 17.10, after I added a host-only adapter for virtual machine, there wa
 ## Local Installs and Programs
 
 Install additional libraries required by git:
-- sudo apt install build-essential
-- sudo apt install gettext`
-- sudo apt install libz-dev`
-- sudo apt install libcurl4-openssl-dev # For HTTPS support e.g. github
+- `sudo apt install build-essential`
+- `sudo apt install gettext`
+- `sudo apt install libz-dev`
+- `sudo apt install libcurl4-openssl-dev # For HTTPS support e.g. github`
 
 - Install git to ~/.local
 - Clone dotfiles repository
-- apt install stow
+- `sudo apt install stow`
 
 To create new local repostory and link to server:
 
