@@ -245,6 +245,34 @@ Delete user:
 DROP USER user;
 ```
 
+#### Dump and restore database (note Postgresql 10 output is not backwards compatible with Postgresql 9):
+
+```bash
+pg_dump [database] > [database].sql
+```
+
+To restore:
+
+```bash
+psql < [database.sql]
+```
+
+#### Export and restore table data (better backwards compatibility):
+
+```
+psql [database]
+\copy my_table to 'my_table.csv' csv;
+\q
+```
+
+Restore:
+
+```
+psql [database]
+\copy my_table FROM 'my_table.csv' DELIMITER ',' CSV;
+\q
+```
+
 ## Configure Apache
 
 Configuration required is for django (version 2.0 at time of writing)
