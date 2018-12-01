@@ -272,6 +272,31 @@ psql [database]
 \copy my_table FROM 'my_table.csv' DELIMITER ',' CSV;
 \q
 ```
+### PostgreSQL CRONTAB Backup Script (Single Table)
+
+```bash
+#!/bin/bash
+
+FILENAME_PREFIX=`date "+%Y-%m-%d-%T"`-backup
+
+PSQL_INPUT_FILE="$FILENAME_PREFIX-commands.sql:"
+
+rm -rf "$PSQL_INPUT_FILE"
+
+touch "$PSQL_INPUT_FILE"
+
+echo "\copy times_practiceperiod to '$FILENAME_PREFIX.csv' csv;" >> "$PSQL_INPUT_FILE"
+
+psql ahpra < "$PSQL_INPUT_FILE"
+
+rm "$PSQL_INPUT_FILE"
+```
+
+#### Daily Crontab:
+
+```
+00    *       *       *       *       /var/lib/postgresql/backup.sh
+```
 
 ## Configure Apache
 
