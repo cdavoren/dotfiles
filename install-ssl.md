@@ -32,7 +32,13 @@ $ sudo certbot register --cert-name rubikscomplex -d rubikscomplex.net -d www.ru
 A new subdomain can be added or removed just by specifying the "new complete list" with the following format:
 
 ```bash
-$ sudo certbot --cert-name rubikscomplex --expand -d rubikscomplex.net -d www.rubikscomplex.net -d father.rubikscomplex.net -d mother.rubikscomplex.net -d another-subdomain.rubikscomplex.net
+$ sudo certbot --cert-name rubikscomplex --expand -d rubikscomplex.net -d www.rubikscomplex.net -d father.rubikscomplex.net -d mother.rubikscomplex.net -d blog.rubikscomplex.net -d skilldrive.rubikscomplex.net -d med.rubikscomplex.net -d ahpra.rubikscomplex.net
+```
+
+To list the current certificates and associated subdomains, use the following command:
+
+```bash
+$ sudo certbot certificates
 ```
 
 ## Apache Configuration
