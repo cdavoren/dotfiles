@@ -186,3 +186,13 @@ KMSAuto Net (portable) is the one that has worked so far, but "KMS Tools" may al
 1. **MKVToolNix** - Useful for adding subtitles to existing mkv files
 1. **HandBrake** - Transcoder (rarely used)
 1. **Mp3Tag** - ?editing metadata only
+
+## Keyboard Debouncing
+
+Using a mechanical keyboard can sometimes result in unwanted key repetition due to the high sensitivity of the hardware.  The debouncing time can be increased in the following registry key:
+
+```HKEY_CURRENT_USER\Control Panel\Accessibility\Keyboard Response\BounceTime```
+
+Suggested values are 20-35 (I believe this is in milliseconds).
+
+Ref: https://superuser.com/questions/1296081/change-debounce-time-of-keyboard
