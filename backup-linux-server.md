@@ -1,4 +1,4 @@
-# Linus Server Backup
+# Linux Server Backup Notes
 
 This file outlines the requirements for backup of my personal linux server.
 
