@@ -202,10 +202,19 @@ GRANT ALL PRIVILEGES ON DATABASE djangtest TO djangotestuser;
 ```
 `\q`
 
-
+```bash
 exit
+```
 
-pip3 install psycopg2
+**Note:** To avoid __segmentation faults__ when using SSL (i.e. HTTPS), you must install psycopg from its source distribution.  This requires an additional library libpq-dev:
+
+```bash
+sudo apt install libpq-dev
+pip3 install --no-binary psycopg2 psycopg2
+```
+
+More information available here: https://github.com/psycopg/psycopg2/issues/543
+
 ```python
 vim djangotest/settings.py:
     DATABASES = {
