@@ -19,6 +19,8 @@ $ sudo apt install python-certbot-apache
 
 ## Cerficate Configuration
 
+**NOTE:** This information is now outdated following the TLS changes made by LetsEncrypt in December 2018.  Updates to come
+
 I mucked around a lot installing the certificates but I ended up with a single certificate name `rubikscomplex` with all domains attached, e.g. rubikscomplex.net, www.rubikscomplex.net, father.rubikscomplex.net etc.
 
 Automatic install for Apache did not work as it conflicted with the Django implementations (something about using the daemon name twice - I suspect it was trying to set up a parallel configuration under SSL but daemon names must be unique).  The Apache plugin is only in beta at this point anyway, so avoid using it.
@@ -40,8 +42,45 @@ To list the current certificates and associated subdomains, use the following co
 ```bash
 $ sudo certbot certificates
 ```
+### Self-signed Certificates (for test)
 
-## Apache Configuration
+As per https://websiteforstudents.com/self-signed-certificates-ubuntu-17-04-17-10/ :
+
+```bash
+sudo bash
+cd /etc/ssl/private
+openssl genrsa -aes128 -out server.key 2048
+openssl rsa -in server.key -out server.key
+openssl req -new -days 365 -key server.key -out server.csr
+openssl x509 -in server.csr -out server.crt -req -signkey server.key -days 365
+chmod 400 server.*
+```
+
+To use, enter the following into the corresponding apache virtual host file (VirtualHost *:443):
+
+```apache
+SSLEngine on
+SSLProtocol all -SSLv2 -SSLv3
+SSLOptions +StrictRequire
+
+SSLCertificateFile /etc/ssl/private/testing.crt
+SSLCertificateKeyFile /etc/ssl/private/testing.key
+```
+
+## Redirection
+
+Create a virtualhost entry for the corresponding server under port 80 (VirtualHost *:80):
+
+```apache
+ServerName [server-name]
+
+RewriteEngine On
+RewriteCond %{SERVER_NAME} =[server-name]
+RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
+```
+There are probably simpler ways of doing this, like in the examples below.
+
+## Example Apache Configurations
 
 Redirect from HTTP to HTTPS (000-le-redirect-rubikscomplex.net.conf):
 

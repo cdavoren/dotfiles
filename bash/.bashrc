@@ -147,3 +147,5 @@ export EDITOR=/usr/bin/vim
 
 # Pass full environment to sudo
 alias sudo='sudo -E'
+
+alias ra='sudo apache2ctl restart'
