@@ -346,6 +346,88 @@ Example host file:
         </Directory>
 </VirtualHost>
 ```
+### Helper Script
+
+A helper script for creating virtual host files (ready for SSL & production):
+
+```python
+#!/usr/bin/env python3
+
+import re
+
+APPLICATION_DOMAIN_NAMES = ['testapp.net', 'testapp2.net']
+
+fill_keys = {
+    'APPLICATION_NAME' : 'testapp',
+    'APPLICATION_ENV_DIR' : 'testapp',
+    'PYTHON_VERSION' : "3.6",
+    'SSL_CERT_LOCATION' :'/srv/test/test.crt',
+    'SSL_KEY_LOCATION' : '/srv/test/test.key',
+    'ADMIN_EMAIL' : 'cdavoren@gmail.com',
+    'SERVER_REDIRECTS' : None,
+    'SERVER_NAMES' : None,
+}
+
+VIRTUAL_HOST_TEMPLATE = """
+<VirtualHost *:80>
+#{SERVER_NAMES}
+
+    ServerAdmin #{ADMIN_EMAIL}
+
+    RewriteEngine on
+#{SERVER_REDIRECTS}
+</VirtualHost *:80>
+
+<VirtualHost *:443>
+#{SERVER_NAMES}
+
+    ServerAdmin #{ADMIN_EMAIL}
+    DocumentRoot /var/www/#{APPLICATION_NAME}
+
+    LogLevel info
+    ErrorLog ${APACHE_LOG_DIR}/#{APPLICATION_NAME}-error.log
+    CustomLog ${APACHE_LOG_DIR}/#{APPLICATION_NAME}-access.log combined
+
+    WSGIDaemonProcess #{APPLICATION_NAME}_daemon python-path=/var/www/#{APPLICATION_NAME}:/var/www/#{APPLICATION_NAME}/env-#{APPLICATION_ENV_DIR}/lib/python#{PYTHON_VERSION}/site-packages
+    WSGIProcessGroup #{APPLICATION_NAME}_daemon
+    WSGIScriptAlias / /srv/#{APPLICATION_NAME}/#{APPLICATION_NAME}-wsgi.py
+
+    Alias /static/ /var/www/#{APPLICATION_NAME}/static/
+    <Location /static/>
+        Options -Indexes
+    </Location>
+
+    SSLEngine on
+    SSLProtocol all -SSLv2 -SSLv3
+    SSLOptions +StrictRequire
+
+    SSLCertificateFile #{SSL_CERT_LOCATION}
+    SSLCertificateKeyFile #{SSL_KEY_LOCATION}
+    </VirtualHost *:443>
+    """
+if __name__ == '__main__':
+    server_names = []
+    for i, n in enumerate(APPLICATION_DOMAIN_NAMES):
+        if i == 0:
+            server_names.append('    ServerName ' + n)
+        else:
+            server_names.append('    ServerAlias ' + n)
+
+    fill_keys['SERVER_NAMES'] = '\n'.join(server_names)
+
+    server_redirects = []
+    for n in APPLICATION_DOMAIN_NAMES:
+        server_redirects.append('    RewriteCond %{SERVER_NAME} ='+n+'\n'+ \
+            '    RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]')
+    fill_keys['SERVER_REDIRECTS'] = '\n'.join(server_redirects)
+
+    template_filled = VIRTUAL_HOST_TEMPLATE
+    for key in fill_keys.keys():
+        print(key)
+        rx = '\\#\\{'+key+'\\}'
+        template_filled = re.sub(rx, fill_keys[key], template_filled)
+    print(template_filled)
+```
 
 ## Install SASS
 
