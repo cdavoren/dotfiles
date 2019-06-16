@@ -156,13 +156,13 @@ echo '8 - Django additional configuration backup ...'
 
 mkdir -pv $BACKUP_DIR/django
 
-DJANGO_DIRECTORIES=`cd /srv && ls -1 -I git`
+DJANGO_DIRECTORIES=`cd /srv/django-configs && ls -1 -I git`
 
 for DIRECTORY in $DJANGO_DIRECTORIES
 do
-    FILENAME=${BACKUP_PREFIX}/django-$DIRECTORY.tar.xz
+    FILENAME=${BACKUP_DIR}/django/django-$DIRECTORY.tar.xz
     echo "    Backing up $DIRECTORY --> $FILENAME ..."
-    tar -C /srv -cf $FILENAME $DIRECTORY
+    tar -C /srv/django-configs -cf $FILENAME $DIRECTORY
 done
 
 # 9 - LetsEncrypt Certificate Backup
