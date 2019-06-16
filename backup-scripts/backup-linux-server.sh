@@ -196,6 +196,7 @@ echo '11 - Final archive ...'
 
 FULL_ARCHIVE_FILENAME=full-$(date +%F).tar.xz
 
+rm -vf $BACKUP_DIR/$FULL_ARCHIVE_NAME
 tar -C /tmp -cf /tmp/$FULL_ARCHIVE_FILENAME $(basename $BACKUP_DIR)
 mv -v /tmp/$FULL_ARCHIVE_FILENAME $BACKUP_DIR
 
