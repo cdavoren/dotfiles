@@ -58,6 +58,20 @@ cd /var/lib/
 tar -cjf ~/full-backup/postgres-backup.tar.xz postgresql/*.csv postgresql/*.sh
 ```
 
+To RESTORE from CSV backups:
+
+```bash
+
+sudo su - postgres
+
+psql
+
+# \c ahpra
+# delete from times_practiceperiod;
+# \copy times_practiceperiod from '/var/lib/postgres/ahpra.csv' delimiter ',' csv;
+# \q
+```
+
 ## Git Repositories
 
 Use the following bash scrupt (at e.g. ```~/workspace/backup-git-dirs.sh```):
