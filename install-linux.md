@@ -81,7 +81,8 @@ Install additional libraries required by git:
 - `sudo apt install libz-dev`
 - `sudo apt install libcurl4-openssl-dev # For HTTPS support e.g. github`
 
-- Install git to ~/.local
+- Install git to `~/.local`
+- Install git manpages tarfile to `~/.local/share/man`
 - Clone dotfiles repository
 - `sudo apt install stow`
 
