@@ -214,3 +214,7 @@ set timeoutlen=3000 ttimeoutlen=100
 if hostname() == "rubikscomplex"
     colorscheme blackdust
 endif
+
+set rtp+=/home/davorian/.local/lib/python3.8/site-packages/powerline/bindings/vim/
+set laststatus=2
+set t_Co=256
