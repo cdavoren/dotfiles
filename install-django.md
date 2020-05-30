@@ -1,54 +1,6 @@
-# Install Notes for Ubuntu Server
+# Install Notes for Django Projects
 
-Notes for Ubuntu Server 17.10
-
-Valid as at 7th December 2017.
-
-## Enable host-only network interface
-
-/etc/netplan/01-netcfg.yaml - add:
-```json
-enp0s8:
-    dhcp4: yes
-```
-
-## Disable automatic updates
-
-/etc/apt/apt.conf.d/10periodic - change:
-
-`APT::Periodic::Update-Package-Lists "0";`
-
-## Configure Samba
-
-**/etc/samba/smbd.conf:**
-
-```conf
-[davorian]
-   comment = home
-   path = /home/davorian
-   browseable = yes
-   read only = no
-   guest only = no
-   valid users = davorian
-
-[www]
-   comment = www
-   path = /var/www
-   browseable = yes
-   read only = no
-   guest only = no
-   valid users = davorian
-```
-
-`sudo smbpasswd -a davorian`
-
-`sudo systemctl restart smbd`
-
-## Disable Network Wait Error
-
-`sudo systemctl disable systemd-networkd-wait-online.service`
-
-`sudo systemctl mask systemd-networkd-wait-online.service`
+See separate notes on Ubuntu installation to set up network, updates, and Samba correctly.
 
 ## Configure Django Project
 
