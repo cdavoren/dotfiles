@@ -167,7 +167,7 @@ Add the following to settings file:
 ```python
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'common-static')
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'common-static'),)
 
 # Don't know why this has to be set manually, since this is the documented 'default' value anyway:
 # Note 09/12/2017: Apparently working without this, not sure why I had to add it to begin with?  Leave commented out for now.
