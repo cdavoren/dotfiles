@@ -122,6 +122,13 @@ cd /etc/apache2
 tar -cJf ~/full-backup/apache-sites.tar.xz sites-available/ sites-enabled/
 ```
 
+### Additional Server Scripts
+
+```bash
+cd /srv/
+tar -cJf ~/full-backup/apache-additional-scripts.tar.xz django-configs/
+```
+
 ### Existing /www Directories
 
 Use the following bash script (at e.g. ```~/workspace/backup-www-dirs.sh```):
