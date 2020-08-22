@@ -10,10 +10,15 @@ mkdir full-backup
 ## 1 - MySQL Database
 
 ```bash
-mysqldump -u root -prootpassword --all-databases --add-drop-databases > ~/full-backup/mysql-all.sql
+mysqldump -u root -p --add-drop-databases --databases wordpressblog > ~/full-backup/mysql-all.sql
 cd ~/full-backup
 tar -cJf mysql-all.sql.tar.xz mysql-all.sql
 rm mysql-all.sql
+```
+**NOTE:** This should list ALL databases except the mysql database, because exporting / reimporting this database between MySQL 5 and MySQL 8 will generate errors.  This will also mean that users will have to be recreated, e.g.:
+
+```sql
+CREATE USER 'wordpressbloguser'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
 ```
 
 ## 2 - Postgres Database
