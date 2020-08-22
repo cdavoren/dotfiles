@@ -6,7 +6,23 @@ Applies to main/web-acessible server only.
 
 SSL certificates obtained by free service LetsEncrypt.  Their local agent is called `certbot` and has an Ubuntu package.
 
+## Apache Pre-configuration
+
+Ensure both the SSL and Rewrite mods are **enabled**:
+
+```bash
+$ sudo a2enmod ssl
+$ sudo a2enmod rewrite
+$ sudo apache2ctl restart
+```
+
 ## Certbot Installation
+
+Follow the instructions for the relevant Ubuntu distribution at https://certbot.eff.org/
+
+### Legacy Installation instructions
+
+Previously for Ubuntu 17.10 / old versions of certbot.  Here for completeness.
 
 As per online documentation:
 
@@ -17,9 +33,9 @@ $ sudo apt update
 $ sudo apt install python-certbot-apache
 ```
 
-## Cerficate Configuration
+#### Legacy Cerficate Configuration
 
-**NOTE:** This information is now outdated following the TLS changes made by LetsEncrypt in December 2018.  Updates to come
+**NOTE:** This information became outdated following the TLS changes made by LetsEncrypt in December 2018.  Follow the current instructions on the certbot website above.
 
 I mucked around a lot installing the certificates but I ended up with a single certificate name `rubikscomplex` with all domains attached, e.g. rubikscomplex.net, www.rubikscomplex.net, father.rubikscomplex.net etc.
 
