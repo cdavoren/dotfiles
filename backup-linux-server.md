@@ -165,7 +165,9 @@ exit
 cp /tmp/crontabs.tar.xz ~/full-backup
 ```
 
-## 7 - Personal Workspace (Usually Optional)
+## 7 - Personal Workspace
+
+**USUALLY OPTIONAL** - but check.
 
 ```bash
 cd ~
