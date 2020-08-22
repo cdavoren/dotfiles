@@ -19,6 +19,7 @@ rm mysql-all.sql
 
 ```sql
 CREATE USER 'wordpressbloguser'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
+GRANT ALL PRIVILEGES ON wordpressblog TO 'wordpressbloguser'@'localhost';
 ```
 
 ## 2 - Postgres Database
