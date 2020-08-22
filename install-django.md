@@ -4,32 +4,25 @@ See separate notes on Ubuntu installation to set up network, updates, and Samba 
 
 ## Configure Django Project
 
-```
-sudo apt install python3-pip
+```bash
+$ sudo apt install python3-pip
+$ pip3 install virtualenv
+$ sudo adduser davorian www-data
 
-sudo adduser davorian www-data
+# For integration with apache WSGI later...
+$ sudo apt install libapache2-mod-wsgi-py3
 
-cd /var/www
-
-sudo mkdir django-test
-
-sudo chown django-test davorian:www-data
-
-sudo chmod g+s django-test
-
-cd django-test
-
-virtualenv ./env
-
-source ./env/bin/activate
-
-python --version (should say 3.x.x)
-
-django-admin startproject djangotest .
-
-vim ./djangotest/settings.py - add '192.168.56.101' to ALLOWED_HOSTS
-
-python manage.py runserver 0.0.0.0:8000
+$ cd /var/www
+$ sudo mkdir django-test
+$ sudo chown django-test davorian:www-data
+$ sudo chmod g+s django-test
+$ cd django-test
+$ virtualenv ./env
+$ source ./env/bin/activate
+$ python --version  # Should say 3.x.x
+$ django-admin startproject djangotest .
+$ vim ./djangotest/settings.py  # For VM add '192.168.56.101' to ALLOWED_HOSTS, otherwise add public IP / domain name
+$ python manage.py runserver 0.0.0.0:8000
 ```
 
 ### Virtualenv and Python versions
@@ -263,8 +256,11 @@ rm "$PSQL_INPUT_FILE"
 
 Configuration required is for django (version 2.0 at time of writing)
 
-Install required packages:
-sudo apt install libapache2-mod-wsgi-py3
+Required packages:
+
+```bash
+$ sudo apt install libapache2-mod-wsgi-py3
+```
 
 Example host file:
 ```apache
