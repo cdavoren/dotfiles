@@ -167,3 +167,18 @@ Note had to add in a .zshenv so that git can access local installs via SSH:
 ```bash
 export PATH=$HOME/.local/bin:$PATH
 ```
+
+## Apache Installation
+
+Use the following commands anticipating both PHP / MySQL and Python 3 Django / PostgreSQL sites:
+
+```bash
+$ sudo apt install apache2
+$ sudo apt install libapache2-mod-php php-mysql
+$ sudo apt install libapache2-mod-wsgi-py3
+# Following lines are optional; they are for the installation of some previously used Python modules (and may be outdated!)
+$ sudo apt install libpq-dev
+$ sudo apt install libtiff5-dev libjpeg8-dev libopenjp2-7-dev zlib1g-dev \
+    libfreetype6-dev liblcms2-dev libwebp-dev tcl8.6-dev tk8.6-dev python3-tk \
+    libharfbuzz-dev libfribidi-dev libxcb1-dev
+```
