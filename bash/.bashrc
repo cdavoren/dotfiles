@@ -2,8 +2,6 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
-export PATH="$HOME/.local/bin":$PATH
-
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
@@ -144,6 +142,8 @@ unset env
 
 # Used by crontab
 export EDITOR=/usr/bin/vim
+
+export PATH="$HOME/.local/bin":$PATH
 
 # Pass full environment to sudo
 alias sudo='sudo -E'

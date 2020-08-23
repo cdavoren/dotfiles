@@ -1,3 +1,5 @@
 ssh/.ssh/agent.env
 ssh/.ssh/known_hosts
+ssh/.ssh/authorized_keys
 ssh/.ssh/rubikscomplex*
+vim/.vim/.netrwhist
