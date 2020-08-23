@@ -1,10 +1,24 @@
-# Linux (Ubuntu 17.10) Server Installation Notes
+# Linux Server Installation Notes
 
-Notes for Ubuntu Server 17.10.
+Notes originally created for Ubuntu Server 17.10, however valid as at 23rd August 2020 for Ubuntu 20.04.
 
-Valid as at 7th December 2017.
+## Create user
 
-## Enable host-only network interface
+Only relevant if non-root user has not already been created during installation process.
+
+```bash
+$ adduser davorian
+# ... add details ...
+# For SUDO access:
+$ addgroup admin
+$ adduser davorian admin
+```
+
+## Legacy Networking
+
+**NOTE:** No longer seems to be relevant for 20.04 (either on Linode or as VM).  Left here for completeness.
+
+### Enable host-only network interface
 
 In file:
 
@@ -16,6 +30,14 @@ Add:
 enp0s8:
     dhcp4: yes
 ```
+
+### Disable Network Wait Error
+
+On Ubuntu 17.10, after I added a host-only adapter for virtual machine, there was a wait error on every boot (some kind of DHCP error?).  I don't know why, but this disables it:
+
+`sudo systemctl disable systemd-networkd-wait-online.service`
+
+`sudo systemctl mask systemd-networkd-wait-online.service`
 
 ## Disable automatic updates
 
@@ -64,14 +86,6 @@ Then:
 `sudo smbpasswd -a davorian`
 
 `sudo systemctl restart smbd`
-
-## Disable Network Wait Error
-
-On Ubuntu 17.10, after I added a host-only adapter for virtual machine, there was a wait error on every boot (some kind of DHCP error?).  I don't know why, but this disables it:
-
-`sudo systemctl disable systemd-networkd-wait-online.service`
-
-`sudo systemctl mask systemd-networkd-wait-online.service`
 
 ## Local Installs and Programs
 
@@ -152,4 +166,19 @@ Note had to add in a .zshenv so that git can access local installs via SSH:
 
 ```bash
 export PATH=$HOME/.local/bin:$PATH
+```
+
+## Apache Installation
+
+Use the following commands anticipating both PHP / MySQL and Python 3 Django / PostgreSQL sites:
+
+```bash
+$ sudo apt install apache2
+$ sudo apt install libapache2-mod-php php-mysql
+$ sudo apt install libapache2-mod-wsgi-py3
+# Following lines are optional; they are for the installation of some previously used Python modules (and may be outdated!)
+$ sudo apt install libpq-dev
+$ sudo apt install libtiff5-dev libjpeg8-dev libopenjp2-7-dev zlib1g-dev \
+    libfreetype6-dev liblcms2-dev libwebp-dev tcl8.6-dev tk8.6-dev python3-tk \
+    libharfbuzz-dev libfribidi-dev libxcb1-dev
 ```

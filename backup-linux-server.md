@@ -1,4 +1,4 @@
-# Linux Server Backup Notes
+#  Linux Server Complete Backup Notes
 
 This file outlines the requirements for backup of my personal linux server.
 
@@ -7,20 +7,27 @@ cd ~
 mkdir full-backup
 ```
 
-## MySQL Database
+## 1 - MySQL Database
 
 ```bash
-mysqldump -u root -prootpassword --all-databases > ~/full-backup/mysql-all.sql
+mysqldump -u root -p --add-drop-databases --databases wordpressblog > ~/full-backup/mysql-all.sql
 cd ~/full-backup
 tar -cJf mysql-all.sql.tar.xz mysql-all.sql
 rm mysql-all.sql
 ```
+**NOTE:** This should list ALL databases except the mysql database, because exporting / reimporting this database between MySQL 5 and MySQL 8 will generate errors.  This will also mean that users will have to be recreated, e.g.:
 
-## Postgres Database
+```sql
+CREATE USER 'wordpressbloguser'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
+GRANT ALL PRIVILEGES ON wordpressblog.* TO 'wordpressbloguser'@'localhost';
+```
+
+## 2 - Postgres Database
 
 ```bash
 sudo su - postgres
-pg_dumpall -W -f /tmp/postgres.sql
+pg_dumpall -W -c -f /tmp/postgres.sql
+# The -W option asks for a password (may be blank), the -c option puts clear/drop statements in the output for a clean rebuild when reimporting, -f specifies the file
 # You will have to enter your password multiple times - it's not an error
 exit
 cp /var/postgres.sql ~/full-backup
@@ -29,7 +36,7 @@ tar -cJf postgres.sql.tar.xz postgres.sql
 rm postgres.sql
 ```
 
-### Cron Backup Scripts
+### Postgres Cron Backup Scripts
 
 Most recent example script (backs up one database only, located in ```/var/lib/postgresql```):
 
@@ -72,7 +79,7 @@ psql
 # \q
 ```
 
-## Git Repositories
+## 3 - Git Repositories
 
 Use the following bash scrupt (at e.g. ```~/workspace/backup-git-dirs.sh```):
 
@@ -97,23 +104,7 @@ mkdir ~/full-backup/git
 cp /tmp/git/* ~/full-backup/git
 ```
 
-## Personal Workspace 
-
-```bash
-cd ~
-tar -cJf ~/full-backup/workspace.tar.xz workspace/
-```
-
-## Final Steps
-
-To assist with downloading speed, zip the whole ```full-backup``` directory:
-
-```
-cd ~/
-tar -cJf full-backup.tar-xz full-backup/
-```
-
-## Apache
+## 4 - Apache
 
 ### Site Configuration Files
 
@@ -151,7 +142,7 @@ bash ~/workspace/backup-www-dirs.sh
 cp /tmp/www* ~/full-backup
 ```
 
-## LetsEncrypt SSL Certificates
+## 5 - LetsEncrypt SSL Certificates
 
 ```bash
 sudo su -
@@ -164,7 +155,7 @@ cp /tmp/certificates.txt .
 cp /tmp/letsencrupt.tar.xz .
 ```
 
-## Cron Scripts
+## 6 - Cron Scripts
 
 ```bash
 sudo bash
@@ -173,4 +164,21 @@ tar -cJx /tmp/crontabs.tar.xz crontabs/
 exit
 cp /tmp/crontabs.tar.xz ~/full-backup
 ```
-##
+
+## 7 - Personal Workspace
+
+**USUALLY OPTIONAL** - but check.
+
+```bash
+cd ~
+tar -cJf ~/full-backup/workspace.tar.xz workspace/
+```
+
+## 8 - Final Steps
+
+To assist with downloading speed, zip the whole ```full-backup``` directory:
+
+```
+cd ~/
+tar -cJf full-backup.tar-xz full-backup/
+```
