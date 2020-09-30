@@ -182,3 +182,74 @@ $ sudo apt install libtiff5-dev libjpeg8-dev libopenjp2-7-dev zlib1g-dev \
     libfreetype6-dev liblcms2-dev libwebp-dev tcl8.6-dev tk8.6-dev python3-tk \
     libharfbuzz-dev libfribidi-dev libxcb1-dev
 ```
+
+### Powerline Installation
+
+Install powerline:
+
+```bash
+$ sudo apt install powerline
+```
+
+To activate powerline with zsh, the following line must be added to ```~/.zshrc```:
+
+```bash
+. /usr/share/powerline/bindings/zsh/powerline.zsh
+```
+
+In the above, ensure that the path corresponds to the correct location of powerline - this varies considerably on different platforms.  Use ```locate powerline.zsh``` to find it.
+
+Then create the following files:
+
+```bash
+~/.config/powerline/config.json
+~/.config/powerline/themes/shell/default.json
+```
+
+```config.json```:
+
+```json
+{
+        "ext": {
+                "shell": {
+                        "theme": "default"
+                }
+        }
+}
+```
+
+```default.json```:
+
+```json
+{
+        "segments": {
+                "left": [
+                        {
+                                "function": "powerline.segments.shell.mode"
+                        },
+                        {
+                                "function": "powerline.segments.common.env.virtualenv",
+                                "priority": 50
+                        },
+                        {
+                                "function": "powerline.segments.common.env.user",
+                                "priority": 30
+                        },
+                        {
+                                "function": "powerline.segments.shell.cwd",
+                                "priority": 10,
+                                "args": {
+                                        "use_path_separator": true,
+                                        "dir_limit_depth": 2
+                                }
+                        },
+                        {
+                                "function": "powerline.segments.shell.jobnum",
+                                "priority": 20
+                        }
+                ]
+        }
+}
+```
+
+You may have to restart the shell / session in order to see changes.
