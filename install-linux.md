@@ -191,10 +191,17 @@ Install powerline:
 $ sudo apt install powerline
 ```
 
-To activate powerline with zsh, the following line must be added to ```~/.zshrc```:
+To use powerline with zsh, the following line must be added to ```~/.zshrc```:
 
 ```bash
 . /usr/share/powerline/bindings/zsh/powerline.zsh
+```
+
+To use powerline with tmux, the following should be added to ```~/.tmux.conf```:
+
+```ini
+set -g default-terminal "screen-256color"
+source "/usr/share/powerline/bindings/tmux/powerline.conf"
 ```
 
 In the above, ensure that the path corresponds to the correct location of powerline - this varies considerably on different platforms.  Use ```locate powerline.zsh``` to find it.
@@ -204,6 +211,7 @@ Then create the following files:
 ```bash
 ~/.config/powerline/config.json
 ~/.config/powerline/themes/shell/default.json
+~/.config/powerline/themes/tmux/default.json
 ```
 
 ```config.json```:
@@ -218,7 +226,7 @@ Then create the following files:
 }
 ```
 
-```default.json```:
+```shell/default.json```:
 
 ```json
 {
@@ -252,4 +260,42 @@ Then create the following files:
 }
 ```
 
+```tmux/default.json```:
+
+```json
+{
+        "segments": {
+                "right": [
+                        {
+                                "function": "powerline.segments.common.sys.uptime",
+                                "priority": 50
+                        },
+                        {
+                                "function": "powerline.segments.common.sys.system_load",
+                                "priority": 50
+                        },
+                        {
+                                "function": "powerline.segments.common.time.date"
+                        },
+                        {
+                                "function": "powerline.segments.common.time.date",
+                                "name": "time",
+                                "args": {
+                                        "format": "%H:%M",
+                                        "istime": true
+                                }
+                        },
+                        {
+                                "function": "powerline.segments.common.net.internal_ip"
+                        },
+                        {
+                                "function": "powerline.segments.common.net.hostname"
+                        }
+                ]
+        }
+}
+```
+
 You may have to restart the shell / session in order to see changes.
+
+
