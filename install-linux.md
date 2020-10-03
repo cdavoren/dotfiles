@@ -41,13 +41,19 @@ On Ubuntu 17.10, after I added a host-only adapter for virtual machine, there wa
 
 ## Disable automatic updates
 
-In file:
+In files:
 
-`/etc/apt/apt.conf.d/10periodic` 
+```
+/etc/apt/apt.conf.d/10periodic
+/etc/apt/apt.conf.d/20auto-upgrades
+```
 
-Edit appropriate line:
+Edit appropriate lines:
 
-`APT::Periodic::Update-Package-Lists "0";`
+```
+APT::Periodic::Update-Package-Lists "0";
+APT::Periodic::Unattended-Upgrade "0";
+```
 
 ## Configure Samba
 
