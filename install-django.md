@@ -13,9 +13,11 @@ $ sudo adduser davorian www-data
 $ sudo apt install libapache2-mod-wsgi-py3
 
 $ cd /var/www
+$ sudo usermod -a -G www-data davorian
 $ sudo mkdir django-test
-$ sudo chown django-test davorian:www-data
+$ sudo chown davorian:www-data django-test
 $ sudo chmod g+s django-test
+
 $ cd django-test
 $ virtualenv ./env
 $ source ./env/bin/activate
