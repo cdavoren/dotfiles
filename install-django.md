@@ -20,7 +20,10 @@ $ cd django-test
 $ virtualenv ./env
 $ source ./env/bin/activate
 $ python --version  # Should say 3.x.x
+$ pip install django
+
 $ django-admin startproject djangotest .
+$ python manage.py startapp mainapp
 $ vim ./djangotest/settings.py  # For VM add '192.168.56.101' to ALLOWED_HOSTS, otherwise add public IP / domain name
 $ python manage.py runserver 0.0.0.0:8000
 ```
