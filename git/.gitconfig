@@ -3,3 +3,5 @@
 	email = cdavoren@gmail.com
 [core]
 	editor = vim
+[pull]
+	rebase = false

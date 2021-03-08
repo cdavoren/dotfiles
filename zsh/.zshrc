@@ -100,3 +100,4 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 . $HOME/.zshrc_ext
+. /usr/lib/python3/dist-packages/powerline/bindings/zsh/powerline.zsh

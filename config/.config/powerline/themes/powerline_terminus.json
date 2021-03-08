@@ -1,0 +1,18 @@
+{
+	"dividers": {
+		"left": {
+			"hard": " ",
+			"soft": " "
+		},
+		"right": {
+			"hard": " ",
+			"soft": " "
+		}
+	},
+	"segment_data" : {
+		"powerline.segments.common.net.hostname": {
+			"before" : " "
+		}
+	}
+}
+

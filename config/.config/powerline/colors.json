@@ -1,0 +1,11 @@
+{
+	"colors": {
+		"darkdarkblue" : 17,
+		"darkdarkpurple" : 54,
+		"darkpurple0" : [17, "13073a"],
+		"darkpurple1" : [18, "261758"],
+		"darkpurple2" : [19, "403075"],
+		"darkpurple3" : [20, "615192"],
+		"darkpurple4" : [21, "887caF"]
+	}
+}
