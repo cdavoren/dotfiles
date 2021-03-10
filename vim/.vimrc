@@ -1,3 +1,6 @@
+set termguicolors
+colorscheme molokayo
+
 " When started as "evim", evim.vim will already have done these settings.
 if v:progname =~? "evim"
   finish
@@ -215,6 +218,3 @@ if hostname() == "rubikscomplex"
     colorscheme blackdust
 endif
 
-set rtp+=/home/davorian/.local/lib/python3.8/site-packages/powerline/bindings/vim/
-set laststatus=2
-set t_Co=256
