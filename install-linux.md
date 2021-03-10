@@ -189,7 +189,7 @@ $ sudo apt install libtiff5-dev libjpeg8-dev libopenjp2-7-dev zlib1g-dev \
     libharfbuzz-dev libfribidi-dev libxcb1-dev
 ```
 
-### Powerline Installation
+## Powerline Installation
 
 Install powerline:
 
@@ -347,4 +347,13 @@ Then create the following files:
 
 You may have to restart the shell / session (or execute ```powerline-daemon --replace```) in order to see changes.
 
+## Vim True Colour
 
+To enable true colour in vim via the **terminal**, the following was added to ```.vimrc```:
+
+```vim
+set termguicolors
+colorscheme molokayo " Or any other true colour colour scheme e.g. solarized8
+```
+
+As of the time of writing, no extra configuration was required to ensure this worked via tmux also (although this is *with* powerline installed), although various websites seem to imply that some escape code formatting might be required.
