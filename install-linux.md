@@ -216,28 +216,106 @@ Then create the following files:
 
 ```bash
 ~/.config/powerline/config.json
+~/.config/powerline/colors.json
+~/.config/powerline/colorschemes/shell/default.json
 ~/.config/powerline/themes/shell/default.json
-~/.config/powerline/themes/tmux/default.json
 ```
 
 ```config.json```:
 
 ```json
 {
-        "ext": {
-                "shell": {
-                        "theme": "default"
+        "common": {
+                "term_truecolor": true
+        }
+}
+```
+
+```colors.json```:
+
+```json
+{
+        "colors": {
+                "darkdarkblue" : 17,
+                "darkdarkpurple" : 54,
+                "darkpurple0" : [53, "13073a"],
+                "darkpurple1" : [54, "261758"],
+                "darkpurple2" : [55, "403075"],
+                "darkpurple3" : [56, "615192"],
+                "darkpurple4" : [57, "887caF"],
+                "darkstaticpurple0" : [53, "1e1529"],
+                "darkstaticpurple1" : [54, "251639"],
+                "darkstaticpurple2" : [55, "271341"],
+                "darkstaticpurple3" : [56, "2f2340"],
+                "darkstaticpurple4" : [57, "413157"],
+                "darkblue0" : [17, "0b031d"],
+                "darkblue1" : [18, "0d0225"],
+                "darkblue2" : [19, "130730"],
+                "darkblue3" : [20, "1a044f"],
+                "darkblue4" : [21, "290973"]
+        }
+}
+```
+
+```colorschemes/shell/default.json```:
+
+```json
+{
+        "name": "Default color scheme for shell prompts",
+        "groups": {
+                "hostname":             { "fg": "white", "bg": "darkpurple1", "attrs": [] },
+                "environment":          { "fg": "white", "bg": "darkpurple4", "attrs": [] },
+                "mode":                 { "fg": "darkestgreen", "bg": "brightgreen", "attrs": ["bold"] },
+                "attached_clients":     { "fg": "white", "bg": "darkestgreen", "attrs": [] },
+                "virtualenv":           { "fg": "white", "bg": "darkpurple2", "attrs" : [] },
+                "user":                 { "fg": "white", "bg": "darkpurple3", "attrs" : [] },
+                "cwd":                  { "fg": "white", "bg": "darkpurple4", "attrs" : [] },
+                "cwd:current_folder":   { "fg": "white", "bg": "darkpurple4", "attrs" : ["bold"] }
+        },
+        "mode_translations": {
+                "vicmd": {
+                        "groups": {
+                                "mode": {"fg": "darkestcyan", "bg": "white", "attrs": ["bold"]}
+                        }
                 }
         }
 }
 ```
 
-```shell/default.json```:
+```themes/powerline_terminus.json```:
+
+```json
+{
+        "dividers": {
+                "left": {
+                        "hard": " ",
+                        "soft": " "
+                },
+                "right": {
+                        "hard": " ",
+                        "soft": " "
+                }
+        },
+        "segment_data" : {
+                "powerline.segments.common.net.hostname": {
+                        "before" : " "
+                }
+        }
+}
+```
+
+```themes/shell/default_leftonly.json```:
 
 ```json
 {
         "segments": {
                 "left": [
+                        {
+                                "function": "powerline.segments.common.net.hostname",
+                                "args": {
+                                        "exclude_domain": true
+                                }
+                        },
                         {
                                 "function": "powerline.segments.shell.mode"
                         },
@@ -264,44 +342,9 @@ Then create the following files:
                 ]
         }
 }
+
 ```
 
-```tmux/default.json```:
-
-```json
-{
-        "segments": {
-                "right": [
-                        {
-                                "function": "powerline.segments.common.sys.uptime",
-                                "priority": 50
-                        },
-                        {
-                                "function": "powerline.segments.common.sys.system_load",
-                                "priority": 50
-                        },
-                        {
-                                "function": "powerline.segments.common.time.date"
-                        },
-                        {
-                                "function": "powerline.segments.common.time.date",
-                                "name": "time",
-                                "args": {
-                                        "format": "%H:%M",
-                                        "istime": true
-                                }
-                        },
-                        {
-                                "function": "powerline.segments.common.net.internal_ip"
-                        },
-                        {
-                                "function": "powerline.segments.common.net.hostname"
-                        }
-                ]
-        }
-}
-```
-
-You may have to restart the shell / session in order to see changes.
+You may have to restart the shell / session (or execute ```powerline-daemon --replace```) in order to see changes.
 
 
