@@ -44,13 +44,13 @@ Automatic install for Apache did not work as it conflicted with the Django imple
 The configuration should *something* like:
 
 ```bash
-$ sudo certbot register --cert-name rubikscomplex -d rubikscomplex.net -d www.rubikscomplex.net -d father.rubikscomplex.net -d mother.rubikscomplex.net
+$ sudo certbot register --cert-name rubikscomplex -d rubikscomplex.com -d www.rubikscomplex.com -d father.rubikscomplex.com -d mother.rubikscomplex.com
 ```
 
 A new subdomain can be added or removed just by specifying the "new complete list" with the following format:
 
 ```bash
-$ sudo certbot --cert-name rubikscomplex --expand -d rubikscomplex.net -d www.rubikscomplex.net -d father.rubikscomplex.net -d mother.rubikscomplex.net -d blog.rubikscomplex.net -d skilldrive.rubikscomplex.net -d med.rubikscomplex.net -d ahpra.rubikscomplex.net
+$ sudo certbot --cert-name rubikscomplex --expand -d rubikscomplex.com -d www.rubikscomplex.com -d father.rubikscomplex.com -d mother.rubikscomplex.com -d blog.rubikscomplex.com -d skilldrive.rubikscomplex.com -d med.rubikscomplex.com -d ahpra.rubikscomplex.com -d phones.rubikscomplex.com
 ```
 
 To list the current certificates and associated subdomains, use the following command:
