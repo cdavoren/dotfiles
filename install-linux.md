@@ -357,3 +357,31 @@ colorscheme molokayo " Or any other true colour colour scheme e.g. solarized8
 ```
 
 As of the time of writing, no extra configuration was required to ensure this worked via tmux also (although this is *with* powerline installed), although various websites seem to imply that some escape code formatting might be required.
+
+## Mail
+
+Both a Mail Transfer Agent (MTA) and a Mail User Agent (MUA) must be installed.  It would appear the easiest way to achieve this as of Ubuntu Server 22.04 is the following:
+
+```bash
+# sudo apt install mailutils
+# sudo apt install postfix
+```
+
+Postfix is now supposedly the preferred MTA for Ubuntu due to its security features including its ability to use TLS/certificates etc, though I haven't yet bothered with this.  I have used it for sending only.
+
+As of November 2022, GMail now requires that new senders have an SPF record in their domain configuration.  These are added as DNS TXT records (done using Linode domain configuration).  I used the below lines, though I'm not sure it worked since in the end I sent an email to the Linode server first, and I assume this then classified subsequent emails from rubikscomplex.com as an "old" sender, and therefore authenticated:
+
+SPF Record:
+```
+@	v=spf1 ip4:103.69.253.9 ip4:72.14.186.184 a:rubikscomplex.com a:texas.rubikscomplex.com +all
+```
+
+DMARC Record:
+```
+_dmarc	v=DMARC1; p=none; sp=none; rua=mailto:davorian@rubikscomplex.com
+```
+
+The first IP address is the public IP of the TPC connection, as that was where I was testing from at the time.  Messages could successfully be sent from my laptop VM.
+
+Future tasks will be to reconfigure the above for rubikscomplex.net rather than rubikscomplex.com, and to consider using Lets Encrypt certificates for postfix authentication (the safer and simpler option would probably be to allow SMTP connections from localhost only though).
+
