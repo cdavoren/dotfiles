@@ -358,6 +358,30 @@ colorscheme molokayo " Or any other true colour colour scheme e.g. solarized8
 
 As of the time of writing, no extra configuration was required to ensure this worked via tmux also (although this is *with* powerline installed), although various websites seem to imply that some escape code formatting might be required.
 
+## Cloud-init Messages
+
+By default, Ubuntu does not seem to wait until cloud-init has finished before showing the native login screen (tty1).  This results in a series of overlaid completion messages on the login which is not problematic for login, but is annoying.
+
+Solutions for this taken from:
+
+https://askubuntu.com/questions/1080732/cloud-init-smg-in-login-screen
+
+https://askubuntu.com/questions/1160012/ubuntu-server-after-boot-cloud-init892
+
+Solution:
+
+- Create directory `/etc/systemd/system/getty@tty1.service.d`
+- In this directory, create any file with a `.conf` ending (I use `cloud-init_wait.conf`)
+- Edit the file to include:
+
+```conf
+[Unit]
+
+After=cloud-init.target
+```
+
+This has fixed the problem for me on both Ubuntu Server 20.04 and 22.04.
+
 ## Mail
 
 Both a Mail Transfer Agent (MTA) and a Mail User Agent (MUA) must be installed.  It would appear the easiest way to achieve this as of Ubuntu Server 22.04 is the following:
