@@ -148,7 +148,7 @@ CREATE USER djangotestuser WITH PASSWORD 'djangotest';
 ALTER ROLE djangotestuser SET client_encoding TO 'utf8';
 ALTER ROLE djangotestuser SET default_transaction_isolation TO 'read committed';
 ALTER ROLE djangotestuser SET timezone TO 'UTC';
-GRANT ALL PRIVILEGES ON DATABASE djangtest TO djangotestuser;
+GRANT ALL PRIVILEGES ON DATABASE djangotest TO djangotestuser;
 ```
 `\q`
 

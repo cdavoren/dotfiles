@@ -1,8 +1,8 @@
 # WordPress Installation
 
-Date: 20th December 2017
+Date: 24th December 2022
 
-WordPress version: 4.9.1
+WordPress version: 6.1.1
 
 **Note:** Due to tight coupling between WordPress settings and the hosted domain, it is better use the WordPress installation process on each host.  You'll need to *export* posts from the old install if migrating - this can be done from the administration section.
 
@@ -84,3 +84,22 @@ Use the default installation script: navigate to the root and the config should 
 
 Can be done using the import function under "Tools" in the administration section.  You have to install the [WordPress Importer plugin](https://en-au.wordpress.org/plugins/wordpress-importer/).
 
+## FTP Access
+
+WordPress requires direct FTP access to the server if you are intending to perform automatic upgrades.  For Ubuntu, this can be facilitated via the vsftpd service:
+
+```bash
+sudo install vsftpd
+```
+
+There will need to be some initial configuration in the `/etc/vsftdp.conf` file.  In the latest version as at 24/12/2022 on Ubuntu 22.04, the relevant options were:
+
+```
+listen=YES
+listen_port=21
+anonymous_enable=NO
+local_enable=YES
+write_enable=YES
+```
+
+When prompted by WordPress for FTP credentials, you should provide the same user and password as that of the WordPress directory itself.
