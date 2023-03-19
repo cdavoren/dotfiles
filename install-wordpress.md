@@ -30,7 +30,8 @@ Create the WordPress database and user:
 
 ```sql
 CREATE DATABASE wordpressblog;
-GRANT ALL PRIVILEGES ON wordpressblog.* TO "wordpressbloguser"@"localhost" IDENTIFIED BY "wordpressbloguser20171220";
+CREATE USER "wordpressbloguser"@"localhost" IDENTIFIED BY "wordpressbloguserpassword";
+GRANT ALL PRIVILEGES ON wordpressblog.* TO "wordpressbloguser"@"localhost";
 FLUSH PRIVILEGES;
 ```
 
@@ -40,7 +41,7 @@ This VirtualHost config was amalgamated hurredly from 2 or 3 sources, with some 
 
 ```apache
 <VirtualHost *:80>
-        ServerAdmin cdavoren@gmail.com
+    ServerAdmin cdavoren@gmail.com
     DocumentRoot /var/www/wordpress-blog
 
     ServerName blog.ubuntuvm.net
@@ -76,6 +77,14 @@ Require user admin
 
 **Note:** Using a `.htaccess` file requires the `AllowOverride All` setting in the `<Directory>` config.
 
+## PHP Module Configuration
+
+PHP has a number of "recommended" modules.  These can be installed via apt:
+
+```bash
+sudo apt install php8.1-gd php8.1-curl php8.1-dom php8.1-imagick php8.1-mbstring php8.1-zip php8.1-intl
+sudo systemctl restart apache2
+```
 ## Configuring WordPress
 
 Use the default installation script: navigate to the root and the config should be invoked automatically.
@@ -103,3 +112,16 @@ write_enable=YES
 ```
 
 When prompted by WordPress for FTP credentials, you should provide the same user and password as that of the WordPress directory itself.
+
+For security, I usually disable the FTP server when not in use, and disable from running on boot:
+
+```bash
+sudo systemctl stop vsftpd
+sudo systemctl disable vsftpd
+```
+
+It can be restarted when required with:
+
+```bash
+sudo systemctl start vsftpd
+```
