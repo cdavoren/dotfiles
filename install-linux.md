@@ -380,7 +380,22 @@ Solution:
 After=cloud-init.target
 ```
 
-This has fixed the problem for me on both Ubuntu Server 20.04 and 22.04.
+This has fixed the problem for me on both Ubuntu Server 20.04.
+
+UPDATE: Unfortunately it did not manage to fix the problem on 22.04 for some reason.
+
+After much reading about the configuration of systemd on DigitalOcean's great guide [here](https://www.digitalocean.com/community/tutorials/understanding-systemd-units-and-unit-files), I managed to improvise a solution.  I am not sure *why* it works, as it should be logically equivalent to the above, but here we are.
+
+I created a file in the `/etc/systemd/system` directory called `cloud-init.service.d`, then put a .conf file in it with the following:
+
+```conf
+[Unit]
+
+Before=getty@tt1.service
+```
+
+This appears to clear the problem.  I posted a question on AskUbuntu [here](https://askubuntu.com/questions/1465822/cloud-init-messages-cluttering-login-screen-in-ubuntu-server-22-04), but the suggestions seem to mainly revolve around disabling cloud-init altogether, which was not what I was trying to achieve.  At least I found something though.
+
 
 ## Mail
 
@@ -406,6 +421,14 @@ _dmarc	v=DMARC1; p=none; sp=none; rua=mailto:davorian@rubikscomplex.com
 ```
 
 The first IP address is the public IP of the TPC connection, as that was where I was testing from at the time.  Messages could successfully be sent from my laptop VM.
+
+This can be tested with the mail or mailx commands like thus:
+
+```bash
+# mail cdavoren@gmail.com
+```
+
+The command should then prompt you for the subject etc.  The body text can be terminated with the standard linux file termination shortcut ctrl-D.
 
 Future tasks will be to reconfigure the above for rubikscomplex.net rather than rubikscomplex.com, and to consider using Lets Encrypt certificates for postfix authentication (the safer and simpler option would probably be to allow SMTP connections from localhost only though).
 
