@@ -1,5 +1,5 @@
 Present\1\
-HostName\\
+HostName\townsvillemss.com\
 LogFileName\putty.log\
 LogType\0\
 LogFileClash\-1\
@@ -30,7 +30,7 @@ ProxyPassword\\
 ProxyTelnetCommand\connect%20%25host%20%25port%5Cn\
 ProxyLogToTerm\1\
 Environment\\
-UserName\\
+UserName\townsv10\
 UserNameFromEnvironment\0\
 LocalUserName\\
 NoPTY\0\
@@ -57,7 +57,7 @@ SshNoShell\0\
 SshProt\3\
 LogHost\\
 SSH2DES\0\
-PublicKeyFile\\
+PublicKeyFile\C%3A%5CUsers%5CChris%5Ctownsvillemss.ppk\
 RemoteCommand\\
 RFCEnviron\0\
 PassiveTelnet\0\
@@ -113,10 +113,10 @@ WinNameAlways\1\
 WinTitle\\
 TermWidth\80\
 TermHeight\24\
-Font\Courier%20New\
+Font\Inconsolata\
 FontIsBold\0\
 FontCharSet\0\
-FontHeight\10\
+FontHeight\12\
 FontQuality\3\
 FontVTMode\4\
 UseSystemColours\0\
@@ -298,7 +298,7 @@ TermYPos\-1\
 WindowState\0\
 SaveWindowPos\0\
 ForegroundOnBell\0\
-Password\1360b\
+Password\56b32\
 CtrlTabSwitch\0\
 Comment\\
 SCPAutoPwd\0\
