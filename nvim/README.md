@@ -8,7 +8,7 @@ Don't use `.vim` files if you don't have to!  The Lua config files should be use
 
 Good videos to watch regarding configuration:
 
-1. Effective Neovim: Instant IDE (`kickstarter.nvim` guide) : https://www.youtube.com/watch?v=stqUbv-5u2s
+1. Effective Neovim: Instant IDE ([`kickstart.nvim`](https://github.com/nvim-lua/kickstart.nvim) guide) : https://www.youtube.com/watch?v=stqUbv-5u2s
 2. 0 to LSP: Neovim RC From Scratch (good for review of neovim configuration structure/Lua use) : https://www.youtube.com/watch?v=w7i4amO_zaE
 
 Other useful places are Primeagen's template configuration:
@@ -19,9 +19,17 @@ https://github.com/ThePrimeagen/init.lua/tree/249f3b14cc517202c80c6babd0f9ec5483
 
 ### Config File Location
 
-I seem to continually forget this, and the documentation is not (immediately) straightforward.  *The Neovim configuration files are located in %USERPROFILE%\AppData\Local\nvim*.
+I seem to continually forget this, and the documentation is not (immediately) straightforward.  *The Neovim configuration files are located in `%USERPROFILE%\AppData\Local\nvim`*.
 
 ### Using kickstart.nvim 
+
+#### LSP / Mason
+
+If using the `python-lsp-server` LSP (also abbreviated `pylsp`) then ensure that python and virtualenv are in the system PATH.
+
+Also, if using the `csharp_ls` LSP then the `dotnet` command will need to be in PATH.  This comes with the .NET SDK which can be downloaded as a component of Visual Studio Community (which needs to be installed anyway, see `telescope` notes below), but can also be installed separately (although I have not tested this).
+
+#### Telescope
 
 Ostensibly, all these problems can be solved by reading the README.md (especially the troubleshooting sections), but I'm summarising it here because it caused me *so* much trouble.
 
