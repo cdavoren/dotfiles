@@ -1,5 +1,4 @@
-Installation Notes
-==================
+# Installation Notes
 
 Valid as of **05/07/2023**.
 
@@ -16,22 +15,24 @@ Other useful places are Primeagen's template configuration:
 
 https://github.com/ThePrimeagen/init.lua/tree/249f3b14cc517202c80c6babd0f9ec548351ec71
 
-Windows Installation
---------------------
+## Windows Installation
 
 ### Config File Location
 
 I seem to continually forget this, and the documentation is not (immediately) straightforward.  *The Neovim configuration files are located in %USERPROFILE%\AppData\Local\nvim*.
 
-### Using kickstarter.nvim 
+### Using kickstart.nvim 
 
-All these problems can be solved by reading the README.md (especially the troubleshooting sections), but I'm summarising it here because it caused me *so* much trouble.
+Ostensibly, all these problems can be solved by reading the README.md (especially the troubleshooting sections), but I'm summarising it here because it caused me *so* much trouble.
 
-The hardest part of installation under windows is the compilation of telescope-fzf-native by far.  Points to remember:
+The hardest part of installation under windows is the compilation of `telescope-fzf-native` by far.  It would *appear* that this only works with a Visual Studio Community installation, which by default installs all the necessary MSBuild CLI tools including most especially `nmake`.  In theory one should also be able to do this using only the MSBuild (non-IDE) installation, but I did not manage to find the correct settings for this (namely, it did not install `nmake`).  
 
-Firstly, use *only LLVM compliation tools*.  Do *not* use Visual Studio or MinGW even though it looks like these should be supported.  This *is* actually in the README but it's easy to miss.
+Although not strictly in line with the README instructions, I have also tried using e.g. LLVM and [Make for Windows](https://gnuwin32.sourceforge.net/packages/make.htm) (with some tweaks to the Makefile) and this appears to work although I was unable to verify that telescope was successfully using the libfzf.dll by this method.  For reference, the changes that needed to be made to the Makefile were:
 
-Secondly, use *CMake* as the make tool.  This requires a manual edit of the kickstarter template, specifically change the section that looks like this:
+1. `CC = gcc` to `CC = clang`
+2. `CFLAGS += -Wall -Werror -fpic -std=gnu99` to `CFLAGS += -Wall -stdgnu99` (`-fpic` causes some kind of compatibility error, `-Werror` fails with deprecated function calls)
+
+To use CMake (instead of the default `make`), a manual edit of the `telescope-fzf-native` setup template is required. Look for the section that looks like this (this change is taken from the kickstart README:
 
 
 	{
@@ -48,11 +49,13 @@ Secondly, use *CMake* as the make tool.  This requires a manual edit of the kick
 
 	{'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
 
-Thirdly, there are two binaries that should ideally be installed and added to the default %PATH% for use by `telescope` and probably other plugins:
+Initially this may not appear to work, but at some point "just does".  It is unclear to me also at what point CMake suddenly is able to find the VS build tools, as these are not in the path.  Considering that it only appears to start working if the compile
+
+The basic `telescope` plugin relies on two (optional?) binaries that should ideally be installed and added to the default %PATH% for use by `telescope` and probably other plugins:
 
 1. ripgrep - https://github.com/BurntSushi/ripgrep
 2. fd - https://github.com/sharkdp/fd
 
-Then follow the default instructions for configuration, including e.g. installing the python LSP.
+The command `:checkhealth` can be used to check whether `telescope` is correctly finding these utilities.
 
-I haven't yet figured out how to turn off python linting, which can be very annoying.
+Then follow the default instructions for configuration, including e.g. installing the python LSP.
