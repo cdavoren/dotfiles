@@ -88,9 +88,6 @@ local servers = {
     -- mypy : optional static typing for python
     pylsp = {
       plugins = {
-        black = {
-          enabled = true,
-        },
         flake8 = {
           enabled = true,
           -- To match black's default 88 ("produces significantly shorter files")
