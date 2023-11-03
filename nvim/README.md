@@ -15,6 +15,13 @@ Other useful places are Primeagen's template configuration:
 
 https://github.com/ThePrimeagen/init.lua/tree/249f3b14cc517202c80c6babd0f9ec548351ec71
 
+## Additional Commands
+
+The following commands will have to be run manually on first installation:
+
+1. `:PylspInstall pyls-flake8 pyls-mypy pyls-isort` - Unable to automate subpackages for LSPs (yet), see `user/lsp.lua`
+1. `:MasonInstall black` - No (good) way to automate installation of non-LSP packages, see `user/formatter.lua`
+
 ## Windows Installation
 
 ### Config File Location
