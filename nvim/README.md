@@ -28,6 +28,14 @@ The following commands will have to be run manually on first installation:
 
 I seem to continually forget this, and the documentation is not (immediately) straightforward.  *The Neovim configuration files are located in `%USERPROFILE%\AppData\Local\nvim`*.
 
+### Symbolic Linking
+
+You can create symbolic links in windows using the `mklink` command.  On Windows 10 this requires cmd run with administrator privileges (allegedly).  Windows 11 does not have this requirement (tested).  The syntax is:
+
+```bash
+mklink /D %USERPROFILE%\AppData\Local\nvim %PATH_TO_DOTFILES_NVIM%
+```
+
 ### Using kickstart.nvim 
 
 #### LSP / Mason
