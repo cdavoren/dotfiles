@@ -56,6 +56,9 @@ require('user.keymaps')
 
 require('user.plugins')
 
+require('user.colorscheme')
+require('user.lualine')
+
 require('user.telescope')
 require('user.treesitter')
 require('user.lsp')
@@ -64,3 +67,4 @@ require('user.cmp')
 require('user.formatter')
 require('user.overlength')
 require('user.markdownpreview')
+

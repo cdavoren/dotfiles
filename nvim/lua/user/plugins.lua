@@ -31,6 +31,7 @@ require('lazy').setup({
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
 
+  -- This one's mine
   { 'mhartington/formatter.nvim', },
 
   -- NOTE: This is where your plugins related to LSP can be installed.
@@ -62,6 +63,11 @@ require('lazy').setup({
 
       -- Adds LSP completion capabilities
       'hrsh7th/cmp-nvim-lsp',
+
+      -- Additionals from chris@machine Neovim completion series
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-cmdline',
 
       -- Adds a number of user-friendly snippets
       'rafamadriz/friendly-snippets',
@@ -101,27 +107,17 @@ require('lazy').setup({
     },
   },
 
-  {
-    -- Theme inspired by Atom
-    'navarasu/onedark.nvim',
-    priority = 1000,
-    config = function()
-      vim.cmd.colorscheme 'onedark'
-    end,
-  },
-
+  -- Color schemes (mine)
+  { 'EdenEast/nightfox.nvim' },
+  { 'Shatur/neovim-ayu' },
+  { 'luisiacc/gruvbox-baby' },
+  { 'patstockwell/vim-monokai-tasty' },
+  { 'AlexvZyl/nordic.nvim' },
+  { 'navarasu/onedark.nvim', priority = 1000 }, -- Theme inspired by Atom
+  
   {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
-    -- See `:help lualine.txt`
-    opts = {
-      options = {
-        icons_enabled = false,
-        theme = 'onedark',
-        component_separators = '|',
-        section_separators = '',
-      },
-    },
   },
 
   {
@@ -141,10 +137,8 @@ require('lazy').setup({
   { 'nvim-telescope/telescope.nvim', branch = '0.1.x', dependencies = { 'nvim-lua/plenary.nvim' } },
 
   -- Fuzzy Finder Algorithm which requires local dependencies to be built.
-  -- Only load if `make` is available. Make sure you have the system
-  -- requirements installed.
+  -- My alterations: See README for details
   {'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' },
-
 
   {
     -- Highlight, edit, and navigate code
@@ -168,6 +162,9 @@ require('lazy').setup({
   --
   --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
   -- { import = 'custom.plugins' },
+
+  -- Kickstart/mix end: all that follows is mine
+
   {
     "kylechui/nvim-surround",
     version = "*", -- Use for stability; omit to use `main` branch for the latest features
@@ -178,9 +175,9 @@ require('lazy').setup({
         })
     end
   },
-  {
-    'lcheylus/overlength.nvim',
-  },
+  -- Highlight overlength lines
+  { 'lcheylus/overlength.nvim' },
+  -- Flexible Markdown preview (uses web browser but live-updates)
   {
     "iamcco/markdown-preview.nvim",
     cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
