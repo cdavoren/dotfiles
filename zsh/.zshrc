@@ -103,9 +103,9 @@ source $ZSH/oh-my-zsh.sh
 
 . $HOME/.zshrc_ext
 
-if (( ${+SSH_CLIENT} )); then
-	. /usr/share/powerline/bindings/zsh/powerline.zsh
-fi
+# if (( ${+SSH_CLIENT} )); then
+	# . /usr/share/powerline/bindings/zsh/powerline.zsh
+# fi
 
 env=~/.ssh/agent.env
 
@@ -129,3 +129,4 @@ fi
 
 unset env
 
+eval "$(oh-my-posh init zsh --config ~/.config/oh-my-posh/jtracey93-davorian.omp.json)"
