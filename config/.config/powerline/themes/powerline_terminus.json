@@ -1,17 +1,17 @@
 {
 	"dividers": {
 		"left": {
-			"hard": " ",
-			"soft": " "
+			"hard": " ",
+			"soft": " "
 		},
 		"right": {
-			"hard": " ",
-			"soft": " "
+			"hard": " ",
+			"soft": " "
 		}
 	},
 	"segment_data" : {
 		"powerline.segments.common.net.hostname": {
-			"before" : " "
+			"before" : "󰇅 "
 		}
 	}
 }

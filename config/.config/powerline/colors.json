@@ -2,21 +2,10 @@
 	"colors": {
 		"darkdarkblue" : 17,
 		"darkdarkpurple" : 54,
-		"darkpurple0" : [53, "13073a"],
-		"darkpurple1" : [54, "261758"],
-		"darkpurple2" : [55, "403075"],
-		"darkpurple3" : [56, "615192"],
-		"darkpurple4" : [57, "887caF"],
-		"darkstaticpurple0" : [53, "1e1529"],
-		"darkstaticpurple1" : [54, "251639"],
-		"darkstaticpurple1a" : [55, "271341"],
-		"darkstaticpurple2" : [56, "2f2340"],
-		"darkstaticpurple3" : [57, "413157"],
-		"darkstaticpurple4" : [58, "887caF"],
-		"darkblue0" : [17, "0b031d"],
-		"darkblue1" : [18, "0d0225"],
-		"darkblue2" : [19, "130730"],
-		"darkblue3" : [20, "1a044f"],
-		"darkblue4" : [21, "290973"]
+		"darkpurple0" : [17, "13073a"],
+		"darkpurple1" : [18, "261758"],
+		"darkpurple2" : [19, "403075"],
+		"darkpurple3" : [20, "615192"],
+		"darkpurple4" : [21, "887caF"]
 	}
 }
