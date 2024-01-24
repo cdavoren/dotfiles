@@ -12,7 +12,7 @@
             "display_host": false
           },
           "style": "diamond",
-          "template": "{{ if .SSHSession }}\udb83\udc9d {{ end }}{{ .UserName }} ",
+          "template": "{{ if .SSHSession }}\udb83\udc9d {{ end }}{{ .Env.SHORT }} ",
           "type": "session"
         },
         {
@@ -49,8 +49,16 @@
           "type": "spotify"
         },
         {
-          "background": "#290973",
-          "foreground": "#ffffff",
+          "type": "python",
+          "style": "powerline",
+          "powerline_symbol": "",
+          "foreground": "#100e23",
+          "background": "#906cff",
+          "template": "  {{ if .Venv }}{{ .Venv }} {{ end }}"
+        },
+        {
+          "background": "#B7BDF8",
+          "foreground": "#101010",
           "properties": {
             "time_format": "15:04:05"
           },
