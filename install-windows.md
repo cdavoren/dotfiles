@@ -1,3 +1,14 @@
+# Windows 11 Installation Notes
+
+Start with Windows 10 installation notes -> as of 24/02/2024.
+
+Additionally however the Windows 11 taskbar *sucks*.  Especially when it comes to forced "taskbar overflow" which there is no way to disable.  The Windows UX team are not nice people.
+
+Relevant:
+- MS forums thread discussing this: https://answers.microsoft.com/en-us/windows/forum/all/how-to-disable-taskbar-overflow-menu-and-restore/459e7adc-c85a-4e2a-8dc7-a14eadcdca32
+- This is a tool that appears to work to fix it: https://github.com/valinet/ExplorerPatcher
+- This is also mentioned: https://www.startallback.com/ (looks proprietary)
+
 # Windows 10 Installation Notes
 
 ## Partitioning Considerations
