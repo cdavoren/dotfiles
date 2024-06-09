@@ -117,7 +117,8 @@ git push -u origin master #The -u sets *DEFAULT* upstream
 Resulting config:
 
 ```ini
-[core] repositoryformatversion = 0
+[core] 
+    repositoryformatversion = 0
 	filemode = true
 	bare = false
 	logallrefupdates = true
@@ -298,7 +299,7 @@ Then create the following files:
         },
         "segment_data" : {
                 "powerline.segments.common.net.hostname": {
-                        "before" : " "
+                        "before" : " "
                 }
         }
 }
