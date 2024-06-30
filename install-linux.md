@@ -348,6 +348,18 @@ Then create the following files:
 
 You may have to restart the shell / session (or execute ```powerline-daemon --replace```) in order to see changes.
 
+## Oh My Posh Installation
+
+Oh My Posh is an prompt theme engine that I have tested as an alternative to powerline.  At the time of writing it is currently referenced by default in the ZSH configuration.
+
+As per the [installation instructions](https://ohmyposh.dev/docs/installation/linux), it can be installed **or updated** using the following command:
+
+```bash
+curl -s https://ohmyposh.dev/install.sh | bash -s -- -d ~/.local/bin
+```
+
+The theme configuration file is ```~/.config/oh-my-posh/jtracey93-davorian.omp.json```.
+
 ## Vim True Colour
 
 To enable true colour in vim via the **terminal**, the following was added to ```.vimrc```:
