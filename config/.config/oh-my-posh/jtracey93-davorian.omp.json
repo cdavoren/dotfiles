@@ -9,21 +9,22 @@
           "foreground": "#ffffff",
           "leading_diamond": "\ue0b6",
           "properties": {
-            "display_host": false
+            "display_host": false,
+            "time_format": "15:04:05"
           },
           "style": "diamond",
-          "template": "{{ if .SSHSession }}\udb83\udc9d {{ end }}{{ .Env.SHORT }} ",
+          "template": "{{ if .SSHSession }}\udb81\udc8b {{ end }}{{ .Env.SHORT }} ",
           "type": "session"
         },
         {
-          "background": "#887CAF",
-          "foreground": "#ffffff",
+          "background": "#B7BDF8",
+          "foreground": "#101010",
           "properties": {
-            "style": "full"
+            "time_format": "15:04:05"
           },
-          "style": "plain",
-          "template": " {{ .Path }} ",
-          "type": "path"
+          "style": "diamond",
+          "template": " {{.CurrentDate | date .Format }} ",
+          "type": "time"
         },
         {
           "background": "#2F2340",
@@ -57,15 +58,15 @@
           "template": "  {{ if .Venv }}{{ .Venv }} {{ end }}"
         },
         {
-          "background": "#B7BDF8",
-          "foreground": "#101010",
+          "background": "#887CAF",
+          "foreground": "#ffffff",
           "properties": {
-            "time_format": "15:04:05"
+            "style": "full"
           },
           "style": "diamond",
-          "template": " {{ .CurrentDate | date .Format }} ",
+          "template": " {{ .Path }} ",
           "trailing_diamond": "\ue0b0",
-          "type": "time"
+          "type": "path"
         }
       ],
       "type": "prompt"
