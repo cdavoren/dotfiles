@@ -135,4 +135,4 @@ unset POWERLINE_COMMAND
 function set_poshcontext() {
     export SHORT="$SHORT_HOST"
 }
-
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
