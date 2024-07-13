@@ -4,3 +4,4 @@ ssh/.ssh/authorized_keys
 ssh/.ssh/rubikscomplex*
 ssh/.ssh/github*
 vim/.vim/.netrwhist
+*.swp
