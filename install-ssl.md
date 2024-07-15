@@ -98,22 +98,146 @@ There are probably simpler ways of doing this, like in the examples below.
 
 ## Example Apache Configurations
 
-Redirect from HTTP to HTTPS (000-le-redirect-rubikscomplex.net.conf):
+Certbot will try to automatically generate new virtualhost `.conf` files based on existing non-SSL virtualhosts.  These typically take the form of `[original]-le-ssl.conf`, and it seems that once this file exists, certbot will not overwrite it if it makes new updates.
+
+Basic Apache configuration for main server site (see below for ACTUAL configuration of main server which is more complicated):
 
 ```apache
 <VirtualHost _default_:80>
-    ServerName rubikscomplex.net
-    ServerAlias www.rubikscomplex.net
+    ServerName sydney.rubikscomplex.com
+    ServerAdmin cdavoren@gmail.com
+    DocumentRoot /var/www/html
 
-    ServerSignature Off
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
 
-    RewriteEngine On
+    <Directory /var/www/html>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride all
+        Order allow,deny
+        allow from all
+    </Directory>
+
+    RewriteEngine on
+    RewriteCond %{SERVER_NAME} =sydney.rubikscomplex.com
     RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
-
-    ErrorLog /var/log/apache2/redirect.error.log
-    LogLevel warn
 </VirtualHost>
 ```
+
+The main server configuration which includes a number of aliases and a more complicated rewrite rule accordingly:
+
+```apache
+<VirtualHost _default_:80>
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/html
+
+    ServerName rubikscomplex.com
+    ServerAlias www.rubikscomplex.com
+    ServerAlias rubikscomplex.net
+    ServerAlias www.rubikscomplex.net
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+    RewriteEngine on
+    RewriteCond %{SERVER_NAME} =www.rubikscomplex.com [OR]
+    RewriteCond %{SERVER_NAME} =rubikscomplex.com
+    RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
+</VirtualHost>
+```
+
+The auto-generated SSL file copies most of the basic information but adding SSL configuration at the bottom.  For example, when using the basic configuration (first example above), the generated file looks like:
+
+Note: This file can be modified (e.g. to rename log files) and these changes will be preserved by future `certbot` updates.
+
+```apache
+<IfModule mod_ssl.c>
+<VirtualHost *:443>
+    ServerName sydney.rubikscomplex.com
+    ServerAdmin cdavoren@gmail.com
+    DocumentRoot /var/www/html
+
+    ErrorLog ${APACHE_LOG_DIR}/ssl-error.log
+    CustomLog ${APACHE_LOG_DIR}/ssl-access.log combined
+
+    <Directory /var/www/html>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride all
+        Order allow,deny
+        allow from all
+    </Directory>
+
+    SSLEngine on
+    Include /etc/letsencrypt/options-ssl-apache.conf
+    SSLCertificateFile /etc/letsencrypt/live/sydney-rubikscomplex.com/fullchain.pem
+    SSLCertificateKeyFile /etc/letsencrypt/live/sydney-rubikscomplex.com/privkey.pem
+</VirtualHost>
+</IfModule>
+```
+
+Basic Django non-SSL configuration:
+
+```apache
+<VirtualHost *:80>
+    ServerName auslab.rubikscomplex.com
+    ServerAdmin cdavoren@gmail.com
+
+    RewriteEngine on
+    RewriteCond %{SERVER_NAME} =auslab.rubikscomplex.com
+    RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
+</VirtualHost>
+```
+
+Corresponding basic Django site SSL configuration:
+
+```apache
+<IfModule mod_ssl.c>
+<VirtualHost *:443>
+    ServerName auslab.rubikscomplex.com
+    ServerAdmin cdavoren@gmail.com
+
+    RewriteEngine on
+    # Some rewrite rules in this file were disabled on your HTTPS site,
+    # because they have the potential to create redirection loops.
+
+    #     RewriteCond %{SERVER_NAME} =auslab.rubikscomplex.com
+    #     RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
+
+    DocumentRoot /var/www/auslab
+
+    LogLevel info
+
+    ErrorLog ${APACHE_LOG_DIR}/auslab-error.log
+    CustomLog ${APACHE_LOG_DIR}/auslab-access.log combined
+
+    WSGIDaemonProcess djangoauslab python-path=/var/www/auslab:/var/www/auslab/env-auslab/lib/python3.10/site-packages
+    WSGIProcessGroup djangoauslab
+    WSGIScriptAlias / /srv/auslab/auslab-wsgi.py
+
+    Alias /static/ /var/www/auslab/main/static/
+
+    <Location /static/>
+            Options -Indexes
+    </Location>
+
+    <Directory /srv/auslab/>
+        <Files auslab-wsgi.py>
+            Order deny,allow
+            Allow from all
+        </Files>
+    </Directory>
+
+    SSLEngine on
+
+    Include /etc/letsencrypt/options-ssl-apache.conf
+    SSLCertificateFile /etc/letsencrypt/live/sydney-rubikscomplex.com/fullchain.pem
+    SSLCertificateKeyFile /etc/letsencrypt/live/sydney-rubikscomplex.com/privkey.pem
+</VirtualHost>
+</IfModule>
+
+```
+
+### More Examples
 
 Django site that's under 2 subdomains (001-money.conf):
 
@@ -155,7 +279,6 @@ Django site that's under 2 subdomains (001-money.conf):
         SSLOptions +StdEnvVars
     </Directory>
 
-
     SSLCertificateFile /etc/letsencrypt/live/rubikscomplex/fullchain.pem
     SSLCertificateKeyFile /etc/letsencrypt/live/rubikscomplex/privkey.pem
     Include /etc/letsencrypt/options-ssl-apache.conf
@@ -168,7 +291,7 @@ Main site (002-default-ssl.conf)
 <IfModule mod_ssl.c>
     <VirtualHost _default_:443>
         ServerName rubikscomplex.net
-    ServerAlias www.rubikscomplex.net
+        ServerAlias www.rubikscomplex.net
         ServerAdmin webmaster@localhost
 
         DocumentRoot /var/www/html
