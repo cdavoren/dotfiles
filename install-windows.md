@@ -207,3 +207,23 @@ Using a mechanical keyboard can sometimes result in unwanted key repetition due 
 Suggested values are 20-35 (I believe this is in milliseconds).
 
 Ref: https://superuser.com/questions/1296081/change-debounce-time-of-keyboard
+
+## Neovim
+
+Have to remember a few things to help Neovim work correctly under windows.
+
+### Compiler
+
+The best way to do this seems to be to use MSVC, although it's possible LLVM could be used.  Install the MSVC command-line tools using whichever appropriate package works.  Start the shortcut for the MSVC command-line environment (ensure using the x64 version).  COPY the paths of PATH, INCLUDE, and LIB in this environment to the user PATH.  This should solve that problem.
+
+### Lua / Luarocks
+
+For the command-line availability of these, it appears to be easiest to simply run the command: `winget install "lua for windows"`
+
+### Additional Minor Tools
+
+1. `fd` - installed separately
+2. `rg` - installed separately
+3. `sg` - part of ast-grep, can use `winget` to install this but seems be locked at an older version, can use the Ptyhon `ast-grep-cli` package to fix this, but this solution is suspect (will only work with python available)
+
+
