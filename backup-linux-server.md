@@ -1,11 +1,24 @@
 #  Linux Server Complete Backup Notes
 
-This file outlines the requirements for backup of my personal linux server.
+This file outlines the requirements for backup of my personal linux server.  In particular, these instructions are centred around the main Dallas/Texas server which includes all the git backups as well as some of the important websites.
 
-```bash
-cd ~
-mkdir full-backup
-```
+The server contains the following important sections whose respective backups are addressed separately:
+
+1. The home directory
+2. Git repositories
+3. Websites.  Each of these might have:
+    (a) Main directory e.g. `/var/www/html`
+    (b) Downloaded files e.g. `/var/www/auslab/saved_images`
+    (c) Additional per-site configuration files (I conventionally put these in `/srv`)
+4. The Apache server configuration, somewhat overlapping with (3), including:
+    (a) The main files in `/etc/apache2`
+    (b) SSL/LetsEncrypt certificates
+    (c) Log files in `/var/log/apache2` (note I usually configure the different sites to output into separate logs; also this directory is usually only root-readable)
+5. Databases
+    (a) MySQL
+    (b) PostgreSQL
+6. Cron scripts
+
 
 ## 1 - MySQL Database
 
